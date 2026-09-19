@@ -1,0 +1,46 @@
+{
+  "schema": 2,
+  "sha": "0ca93725a9dca8b3dff11943281263d1bf445edc",
+  "run_id": "35450879102",
+  "status": "FAIL",
+  "checks": [
+    {
+      "name": "configuration",
+      "status": "PASS",
+      "detail": "All three required Secrets are present"
+    },
+    {
+      "name": "target",
+      "status": "PASS",
+      "detail": "Restricted to Lightning SSH gateway"
+    },
+    {
+      "name": "key_format",
+      "status": "PASS",
+      "detail": "Private key parsed without passphrase"
+    },
+    {
+      "name": "secret_fingerprint",
+      "status": "PASS",
+      "detail": "SHA256:AerGo33D0P3gzPfHmG0WwW3D3D9j6UsJ7epj1agSi0U"
+    },
+    {
+      "name": "ci_observed_fingerprint",
+      "status": "INFO",
+      "detail": "ssh-rsa SHA256:AerGo33D0P3gzPfHmG0WwW3D3D9j6UsJ7epj1agSi0U"
+    },
+    {
+      "name": "cross_network_comparison",
+      "status": "PASS",
+      "detail": "CI observation and user observation match; not independent official certification"
+    },
+    {
+      "name": "ssh_session",
+      "status": "FAIL",
+      "detail": "SSH_AUTHORIZATION_REJECTED"
+    }
+  ],
+  "legacy_host_signature_fallback": false,
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35450879102"
+}

@@ -1,0 +1,60 @@
+name: Studio SSH read-only probe
+on:
+  push:
+    branches: [feature/web-playtest]
+    paths: [tools/studio_probe.py, tools/probe_report.py, .github/workflows/studio-probe.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: studio-ssh-probe
+  cancel-in-progress: false
+jobs:
+  probe:
+    if: github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/feature/web-playtest'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify SSH identity and remote prerequisites
+        id: ssh
+        continue-on-error: true
+        env:
+          STUDIO_SSH_TARGET: ${{ secrets.STUDIO_SSH_TARGET }}
+          STUDIO_SSH_PRIVATE_KEY: ${{ secrets.STUDIO_SSH_PRIVATE_KEY }}
+          STUDIO_SSH_KNOWN_HOSTS: ${{ secrets.STUDIO_SSH_KNOWN_HOSTS }}
+        run: python3 tools/studio_probe.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: studio-probe-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+          retention-days: 3
+      - name: Fail if SSH was not verified
+        if: always()
+        env:
+          RESULT: ${{ steps.ssh.outcome }}
+        run: test "$RESULT" = success
+  evidence:
+    needs: probe
+    if: always() && github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/feature/web-playtest'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: studio-probe-${{ github.sha }}
+          path: out
+      - name: Publish redacted evidence without SSH secrets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

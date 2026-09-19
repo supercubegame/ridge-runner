@@ -1,0 +1,81 @@
+{
+  "schema": 2,
+  "sha": "87ebed9b8815b763ca41db6e5dbbe8699def47a4",
+  "run_id": "35450937363",
+  "status": "FAIL",
+  "checks": [
+    {
+      "name": "configuration",
+      "status": "PASS",
+      "detail": "All three required Secrets are present"
+    },
+    {
+      "name": "target",
+      "status": "PASS",
+      "detail": "Restricted to Lightning SSH gateway"
+    },
+    {
+      "name": "client_public_key",
+      "status": "INFO",
+      "detail": "ssh-ed25519 SHA256:L60C3arDa+5xQ0quShiPBjV8F6M5BLhDJOaEIayCxT8"
+    },
+    {
+      "name": "key_format",
+      "status": "PASS",
+      "detail": "Private key parsed without passphrase"
+    },
+    {
+      "name": "secret_fingerprint",
+      "status": "PASS",
+      "detail": "SHA256:AerGo33D0P3gzPfHmG0WwW3D3D9j6UsJ7epj1agSi0U"
+    },
+    {
+      "name": "ci_observed_fingerprint",
+      "status": "INFO",
+      "detail": "ssh-rsa SHA256:AerGo33D0P3gzPfHmG0WwW3D3D9j6UsJ7epj1agSi0U"
+    },
+    {
+      "name": "cross_network_comparison",
+      "status": "PASS",
+      "detail": "CI observation and user observation match; not independent official certification"
+    },
+    {
+      "name": "host_signature_algorithm",
+      "status": "INFO",
+      "detail": "rsa-sha2-512"
+    },
+    {
+      "name": "key_exchange_algorithm",
+      "status": "INFO",
+      "detail": "curve25519-sha256"
+    },
+    {
+      "name": "client_key_offered",
+      "status": "INFO",
+      "detail": "yes"
+    },
+    {
+      "name": "server_accepted_client_key",
+      "status": "INFO",
+      "detail": "not observed"
+    },
+    {
+      "name": "authentication_completed",
+      "status": "INFO",
+      "detail": "not observed"
+    },
+    {
+      "name": "authorization_detail",
+      "status": "FAIL",
+      "detail": "Server rejected public-key authentication; host signature policy is not the blocker"
+    },
+    {
+      "name": "ssh_session",
+      "status": "FAIL",
+      "detail": "SSH_AUTHORIZATION_REJECTED"
+    }
+  ],
+  "legacy_host_signature_fallback": false,
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35450937363"
+}

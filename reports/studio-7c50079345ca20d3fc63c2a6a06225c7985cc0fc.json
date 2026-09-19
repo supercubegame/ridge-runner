@@ -1,0 +1,252 @@
+{
+  "schema": 2,
+  "sha": "7c50079345ca20d3fc63c2a6a06225c7985cc0fc",
+  "run_id": "35452898117",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "configuration",
+      "status": "PASS",
+      "detail": "All three required Secrets are present"
+    },
+    {
+      "name": "target",
+      "status": "PASS",
+      "detail": "Restricted to Lightning SSH gateway"
+    },
+    {
+      "name": "client_public_key",
+      "status": "INFO",
+      "detail": "ssh-ed25519 SHA256:L60C3arDa+5xQ0quShiPBjV8F6M5BLhDJOaEIayCxT8"
+    },
+    {
+      "name": "key_format",
+      "status": "PASS",
+      "detail": "Private key parsed without passphrase"
+    },
+    {
+      "name": "secret_fingerprint",
+      "status": "PASS",
+      "detail": "SHA256:AerGo33D0P3gzPfHmG0WwW3D3D9j6UsJ7epj1agSi0U"
+    },
+    {
+      "name": "ci_observed_fingerprint",
+      "status": "INFO",
+      "detail": "ssh-rsa SHA256:AerGo33D0P3gzPfHmG0WwW3D3D9j6UsJ7epj1agSi0U"
+    },
+    {
+      "name": "cross_network_comparison",
+      "status": "PASS",
+      "detail": "CI observation and user observation match; not independent official certification"
+    },
+    {
+      "name": "host_signature_algorithm",
+      "status": "INFO",
+      "detail": "rsa-sha2-512"
+    },
+    {
+      "name": "key_exchange_algorithm",
+      "status": "INFO",
+      "detail": "curve25519-sha256"
+    },
+    {
+      "name": "client_key_offered",
+      "status": "INFO",
+      "detail": "yes"
+    },
+    {
+      "name": "server_accepted_client_key",
+      "status": "INFO",
+      "detail": "yes"
+    },
+    {
+      "name": "authentication_completed",
+      "status": "INFO",
+      "detail": "yes"
+    },
+    {
+      "name": "negotiated_host_signature",
+      "status": "PASS",
+      "detail": "rsa-sha2-512"
+    },
+    {
+      "name": "ssh_session",
+      "status": "PASS",
+      "detail": "Strict host verification, authentication and read-only remote command succeeded"
+    },
+    {
+      "name": "remote_linux",
+      "status": "PASS",
+      "detail": "Available"
+    },
+    {
+      "name": "remote_x86_64",
+      "status": "PASS",
+      "detail": "Available"
+    },
+    {
+      "name": "remote_python_compatible",
+      "status": "PASS",
+      "detail": "Available"
+    },
+    {
+      "name": "remote_curl",
+      "status": "PASS",
+      "detail": "Available"
+    },
+    {
+      "name": "remote_port_8060_available",
+      "status": "WARN",
+      "detail": "Requires review before deployment"
+    },
+    {
+      "name": "remote_disk_1g_available",
+      "status": "PASS",
+      "detail": "Available"
+    }
+  ],
+  "legacy_host_signature_fallback": false,
+  "deployment": {
+    "status": "PASS",
+    "stage": "complete",
+    "checks": {
+      "archive_checksum": true,
+      "extracted_files_match": true,
+      "reused_matching_service": true,
+      "all_http_assets_match": true
+    },
+    "asset_count": 13,
+    "release": "playtest-35445091317-1",
+    "preview_registration": "UNVERIFIED",
+    "preview_error_type": "ModuleNotFoundError"
+  },
+  "public_http": "PASS",
+  "preview_url_source": "user_confirmed",
+  "verified_preview_url": "https://8060-01m2watakghqmc1fnymkg5czax.cloudspaces.litng.ai",
+  "recovery": {
+    "status": "PASS",
+    "stage": "complete",
+    "actual_sleep_wake_test": "NOT_RUN",
+    "auto_wake": "NOT_CONFIGURED",
+    "checks": {
+      "existing_startup_inspected": true,
+      "original_bytes_preserved": true,
+      "bash_syntax": true,
+      "hook_readback": true,
+      "backup_readback": true,
+      "single_managed_block": true
+    },
+    "resume_modes": [
+      "reused",
+      "reused"
+    ]
+  },
+  "studio_browser": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "real exported Web game advances frames",
+        "pass": true
+      },
+      {
+        "name": "keyboard jump changes real character elevation",
+        "pass": true
+      },
+      {
+        "name": "keyboard forward changes real character position",
+        "pass": true
+      },
+      {
+        "name": "restart resets gameplay position",
+        "pass": true
+      },
+      {
+        "name": "no JavaScript or GDScript errors",
+        "pass": true
+      }
+    ],
+    "renderer": "SwiftShader, not device FPS"
+  },
+  "touch_browser": {
+    "status": "PASS",
+    "results": [
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "status": "PASS",
+        "checks": [
+          {
+            "name": "game advances frames with mobile touch context",
+            "pass": true
+          },
+          {
+            "name": "touch forward changes character position",
+            "pass": true
+          },
+          {
+            "name": "releasing touch stops movement",
+            "pass": true
+          },
+          {
+            "name": "touch jump changes character elevation",
+            "pass": true
+          },
+          {
+            "name": "touch restart resets character",
+            "pass": true
+          },
+          {
+            "name": "simultaneous forward and jump work",
+            "pass": true
+          },
+          {
+            "name": "no engine or JavaScript errors",
+            "pass": true
+          }
+        ]
+      },
+      {
+        "viewport": {
+          "width": 960,
+          "height": 540
+        },
+        "status": "PASS",
+        "checks": [
+          {
+            "name": "game advances frames with mobile touch context",
+            "pass": true
+          },
+          {
+            "name": "touch forward changes character position",
+            "pass": true
+          },
+          {
+            "name": "releasing touch stops movement",
+            "pass": true
+          },
+          {
+            "name": "touch jump changes character elevation",
+            "pass": true
+          },
+          {
+            "name": "touch restart resets character",
+            "pass": true
+          },
+          {
+            "name": "simultaneous forward and jump work",
+            "pass": true
+          },
+          {
+            "name": "no engine or JavaScript errors",
+            "pass": true
+          }
+        ]
+      }
+    ],
+    "coverage": "Chromium simulated touch, landscape only; not physical Android/iOS acceptance"
+  },
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35452898117"
+}

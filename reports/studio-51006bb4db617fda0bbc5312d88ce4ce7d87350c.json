@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "sha": "51006bb4db617fda0bbc5312d88ce4ce7d87350c",
+  "run_id": "35447861857",
+  "status": "FAIL",
+  "checks": [
+    {
+      "name": "configuration",
+      "status": "PASS",
+      "detail": "All three required Secrets supplied to this run"
+    },
+    {
+      "name": "target",
+      "status": "PASS",
+      "detail": "Login target restricted to Lightning SSH gateway"
+    },
+    {
+      "name": "key_format",
+      "status": "PASS",
+      "detail": "OpenSSH accepted supplied private key without a passphrase"
+    },
+    {
+      "name": "known_hosts",
+      "status": "FAIL",
+      "detail": "No host entry for ssh.lightning.ai; provide known_hosts records, not just SHA256 fingerprint"
+    }
+  ],
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35447861857"
+}

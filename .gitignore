@@ -1,0 +1,10 @@
+.godot/
+__pycache__/
+*.pyc
+node_modules/
+out/
+.cache/
+.env*
+*.p12
+*.p8
+*.keystore

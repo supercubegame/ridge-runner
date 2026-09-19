@@ -1,4 +1,6 @@
 name: Studio SSH read-only probe
+# Recheck after the user confirmed Lightning public-key registration on 2026-09-19.
+# Preserve strict pinning; legacy host signatures are only retried on explicit negotiation failure.
 on:
   push:
     branches: [feature/web-playtest]

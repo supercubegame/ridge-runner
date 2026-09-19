@@ -2,7 +2,7 @@ name: Studio SSH read-only probe
 on:
   push:
     branches: [feature/web-playtest]
-    paths: [tools/studio_probe.py, tools/probe_report.py, .github/workflows/studio-probe.yml]
+    paths: [tools/studio_probe.py, tools/studio_diagnostics.py, tools/probe_report.py, .github/workflows/studio-probe.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,7 +25,7 @@ jobs:
           STUDIO_SSH_TARGET: ${{ secrets.STUDIO_SSH_TARGET }}
           STUDIO_SSH_PRIVATE_KEY: ${{ secrets.STUDIO_SSH_PRIVATE_KEY }}
           STUDIO_SSH_KNOWN_HOSTS: ${{ secrets.STUDIO_SSH_KNOWN_HOSTS }}
-        run: python3 tools/studio_probe.py
+        run: python3 tools/studio_diagnostics.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

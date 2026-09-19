@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reuse the strict SSH probe and send only a fixed, tested deployment program."""
+"""Reuse strict SSH, then verify the user-confirmed public preview without SDK discovery."""
 import json
 import pathlib
 import subprocess
@@ -8,6 +8,8 @@ import urllib.request
 import studio_diagnostics
 from studio_remote import VERSION, validate_url
 
+# Public playtest URL supplied and opened by the user; contains no auth token.
+CONFIRMED_PREVIEW_URL = "https://8060-01m2watakghqmc1fnymkg5czax.cloudspaces.litng.ai"
 probe = studio_diagnostics.probe
 original = probe.command
 deployment = None
@@ -21,7 +23,6 @@ def run(args, **kwargs):
     if len(replies) != 1:
         return result
     prereqs = json.loads(replies[0])
-    # An occupied port is reviewed by the deployer: reuse only an exact release.
     required = ("linux", "x86_64", "python_compatible", "curl", "disk_1g_available")
     if not all(prereqs.get(k) is True for k in required):
         deployment = {"status": "FAIL", "stage": "prerequisites"}
@@ -35,7 +36,6 @@ def run(args, **kwargs):
             deployment = {"status": "FAIL", "stage": "remote_reply", "exit_code": remote.returncode}
         else:
             received = json.loads(lines[0])
-            # Only the fixed remote script's structured result is retained, never raw output.
             allowed = {"status", "stage", "checks", "asset_count", "release", "preview_url",
                        "preview_registration", "preview_error_type", "error_type", "error_code"}
             deployment = {k: v for k, v in received.items() if k in allowed}
@@ -49,19 +49,25 @@ def run(args, **kwargs):
         deployment = {"status": "FAIL", "stage": "remote_reply", "error_type": type(e).__name__}
     return result
 
+def verify_public(url):
+    url = validate_url(url)
+    with urllib.request.urlopen(url + "/version.json", timeout=30) as response:
+        if response.headers.get_content_type() != "application/json" or json.load(response) != VERSION:
+            raise ValueError("Public endpoint did not return the exact release")
+    return url
+
 def main():
     probe.command = run
     ssh_code = probe.main()
     report = probe.report
     report["deployment"] = deployment or {"status": "NOT_RUN"}
     report["public_http"] = "NOT_VERIFIED"
-    if not ssh_code and deployment and deployment.get("status") == "PASS" and deployment.get("preview_url"):
+    report["preview_url_source"] = "user_confirmed"
+    if not ssh_code and deployment and deployment.get("status") == "PASS":
         try:
-            url = validate_url(deployment["preview_url"])
-            with urllib.request.urlopen(url + "/version.json", timeout=30) as r:
-                if r.headers.get_content_type() != "application/json" or json.load(r) != VERSION:
-                    raise ValueError("Public endpoint did not return the exact release")
+            url = verify_public(CONFIRMED_PREVIEW_URL)
             report["public_http"] = "PASS"
+            report["verified_preview_url"] = url
             pathlib.Path("out/preview-url.txt").write_text(url)
         except Exception as error:
             report["public_http_error_type"] = type(error).__name__

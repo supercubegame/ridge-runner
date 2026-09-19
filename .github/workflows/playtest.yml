@@ -1,0 +1,86 @@
+name: Build playable candidates
+on:
+  push:
+    branches: [feature/web-playtest, main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: playtest-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  playtest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Real Godot gates and export
+        id: build
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python3 tools/ci_build.py 2>&1 | tee out/build.log
+      - name: Install browser test runtime
+        id: browser_install
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          { npm install --no-save --package-lock=false playwright@1.55.0; npx playwright install --with-deps chromium; } 2>&1 | tee out/browser-install.log
+      - name: Real Web browser smoke
+        id: browser
+        if: steps.build.outcome == 'success' && steps.browser_install.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8060 --bind 127.0.0.1 --directory out/web > out/server.log 2>&1 &
+          SERVER=$!
+          trap 'kill "$SERVER" || true' EXIT
+          for n in $(seq 1 30); do curl -fsS http://127.0.0.1:8060/ >/dev/null && break || sleep 1; done
+          node tools/browser_smoke.cjs 2>&1 | tee out/browser.log
+      - name: Publish playable prerelease
+        id: release
+        if: steps.build.outcome == 'success' && steps.browser.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="playtest-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          gh release create "$TAG" out/RidgeRunner-web.zip out/RidgeRunner-windows.zip out/playtest.png out/build.json out/browser.json --target "$GITHUB_SHA" --prerelease --title "Ridge Runner playable prototype ${GITHUB_SHA:0:7}" --notes 'Godot engine tests and real Chromium Web smoke passed. WASD move, Space jump, hold RMB to look, R restart. Windows ZIP is portable and unsigned; native Windows/device acceptance is not performed by Linux CI. Web ZIP requires an HTTP server, see PLAY.txt. No Studio credentials or paid large runners used.'
+          gh release view "$TAG" --json url,assets,tagName > out/release.json
+      - name: Write readable evidence even on failure
+        id: report
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          BROWSER_OUTCOME: ${{ steps.browser.outcome }}
+          RELEASE_OUTCOME: ${{ steps.release.outcome }}
+        run: python3 tools/report.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: playtest-evidence-${{ github.sha }}
+          path: |
+            out/*.json
+            out/*.log
+            out/*.png
+            out/*.zip
+          if-no-files-found: error
+          retention-days: 7
+      - name: Fail when any required stage failed
+        if: always()
+        env:
+          BUILD: ${{ steps.build.outcome }}
+          BROWSER: ${{ steps.browser.outcome }}
+          RELEASE: ${{ steps.release.outcome }}
+          REPORT: ${{ steps.report.outcome }}
+        run: test "$BUILD" = success && test "$BROWSER" = success && test "$RELEASE" = success && test "$REPORT" = success

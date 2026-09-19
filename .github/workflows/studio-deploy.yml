@@ -1,0 +1,134 @@
+name: Deploy verified Web playtest to Studio
+on:
+  push:
+    branches: [feature/web-playtest]
+    paths: [tools/studio_remote.py, tools/studio_deploy.py, tools/test_studio_deploy.py, tools/studio_recovery.py, tools/test_studio_recovery.py, tools/studio_touch.cjs, .github/workflows/studio-deploy.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: studio-ssh-probe
+  cancel-in-progress: false
+jobs:
+  gate:
+    if: github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/feature/web-playtest'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: |
+          python3 tools/test_studio_deploy.py
+          python3 tools/test_studio_recovery.py
+          node --check tools/studio_touch.cjs
+  deploy:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Strict SSH and checksum-pinned deployment
+        id: ssh
+        continue-on-error: true
+        env:
+          STUDIO_SSH_TARGET: ${{ secrets.STUDIO_SSH_TARGET }}
+          STUDIO_SSH_PRIVATE_KEY: ${{ secrets.STUDIO_SSH_PRIVATE_KEY }}
+          STUDIO_SSH_KNOWN_HOSTS: ${{ secrets.STUDIO_SSH_KNOWN_HOSTS }}
+        run: python3 tools/studio_deploy.py
+      - name: Preserve startup script and verify recovery idempotence
+        if: steps.ssh.outcome == 'success'
+        id: recovery
+        continue-on-error: true
+        env:
+          STUDIO_SSH_TARGET: ${{ secrets.STUDIO_SSH_TARGET }}
+          STUDIO_SSH_PRIVATE_KEY: ${{ secrets.STUDIO_SSH_PRIVATE_KEY }}
+          STUDIO_SSH_KNOWN_HOSTS: ${{ secrets.STUDIO_SSH_KNOWN_HOSTS }}
+        run: python3 tools/studio_recovery.py
+      - name: Browser dependencies
+        if: steps.ssh.outcome == 'success'
+        id: browser_setup
+        continue-on-error: true
+        run: |
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Real browser against public Studio URL
+        if: steps.ssh.outcome == 'success' && steps.browser_setup.outcome == 'success'
+        id: browser
+        continue-on-error: true
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          source=pathlib.Path('tools/browser_smoke.cjs').read_text()
+          needle="'http://127.0.0.1:8060'"
+          assert source.count(needle)==1
+          source=source.replace(needle,json.dumps(pathlib.Path('out/preview-url.txt').read_text()))
+          pathlib.Path('tools/studio-browser.cjs').write_text(source)
+          PY
+          node tools/studio-browser.cjs
+      - name: Touch input on two landscape viewports
+        if: steps.ssh.outcome == 'success' && steps.browser_setup.outcome == 'success'
+        id: touch
+        continue-on-error: true
+        run: node tools/studio_touch.cjs
+      - name: Record explicit recovery and browser coverage
+        if: always()
+        env:
+          BROWSER_OUTCOME: ${{ steps.browser.outcome }}
+          TOUCH_OUTCOME: ${{ steps.touch.outcome }}
+          RECOVERY_OUTCOME: ${{ steps.recovery.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path('out/studio-probe.json')
+          r=json.loads(p.read_text()) if p.exists() else {'status':'FAIL','checks':[]}
+          b=pathlib.Path('out/browser.json')
+          browser=json.loads(b.read_text()) if b.exists() else {}
+          passed=os.environ.get('BROWSER_OUTCOME')=='success' and browser.get('status')=='PASS'
+          r['studio_browser']={'status':'PASS' if passed else 'UNVERIFIED','checks':browser.get('checks',[]),'renderer':'SwiftShader, not device FPS'}
+          t=pathlib.Path('out/touch.json')
+          touch=json.loads(t.read_text()) if t.exists() else {'status':'NOT_RUN'}
+          r['touch_browser']=touch
+          if not (passed and os.environ.get('TOUCH_OUTCOME')=='success' and touch.get('status')=='PASS' and os.environ.get('RECOVERY_OUTCOME')=='success' and r.get('recovery',{}).get('status')=='PASS'):r['status']='FAIL'
+          p.parent.mkdir(exist_ok=True)
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: studio-deploy-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+          retention-days: 3
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: studio-touch-images-${{ github.sha }}
+          path: out/touch-*.png
+          if-no-files-found: warn
+          retention-days: 3
+      - name: Require deployment, recovery and browser acceptance
+        if: always()
+        run: python3 -c "import json; assert json.load(open('out/studio-probe.json'))['status']=='PASS'"
+  evidence:
+    needs: [gate, deploy]
+    if: always() && github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/feature/web-playtest'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: studio-deploy-${{ github.sha }}
+          path: out
+      - name: Publish isolated redacted deployment evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

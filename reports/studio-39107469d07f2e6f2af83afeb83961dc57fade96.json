@@ -1,0 +1,112 @@
+{
+  "kind": "g0_template_detail_read",
+  "status": "READS_COMPLETED",
+  "qualification": "NOT_PASSED",
+  "started_at_utc": "2026-09-20T14:06:03.997177+00:00",
+  "platform_writes": 0,
+  "studio_reads": 0,
+  "public_url_requests": 0,
+  "templates": [
+    {
+      "id": "cet_01jwy93dw1g29nd9ta86nfxy4h",
+      "managedId": "0",
+      "disabled": false,
+      "defaultMachine": null,
+      "allowedMachines": [],
+      "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+      "machineImageVersion": null,
+      "setup_script_present": false,
+      "setup_script_sha256": null,
+      "field_states": {
+        "defaultMachine": "EMPTY",
+        "allowedMachines": "EMPTY",
+        "setupScriptText": "EMPTY",
+        "machineImageVersion": "EMPTY"
+      }
+    },
+    {
+      "id": "cet_01jz17475rka18x4swrebtjxev",
+      "managedId": "01",
+      "disabled": false,
+      "defaultMachine": null,
+      "allowedMachines": [],
+      "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_PYTHON_EMPTY",
+      "machineImageVersion": null,
+      "setup_script_present": false,
+      "setup_script_sha256": null,
+      "field_states": {
+        "defaultMachine": "EMPTY",
+        "allowedMachines": "EMPTY",
+        "setupScriptText": "EMPTY",
+        "machineImageVersion": "EMPTY"
+      }
+    }
+  ],
+  "get_attempts": 3,
+  "blocked": 0,
+  "ended_at_utc": "2026-09-20T14:06:04.672250+00:00",
+  "limitations": [
+    "Two known candidates only, not exhaustive catalog",
+    "No backend create, launch or billing test",
+    "Empty defaults do not guarantee CPU choice",
+    "No Studio read or public endpoint request"
+  ],
+  "fixture": {
+    "kind": "g0_template_fixture",
+    "status": "PASS",
+    "platform_requests": 0,
+    "checks": [
+      "exact_studio_api_source",
+      "high_level_two_mock_calls",
+      "high_level_omits_compute",
+      "high_level_omits_spot",
+      "high_level_disables_secrets",
+      "second_request_local_source",
+      "high_level_signature_no_machine",
+      "low_level_explicit_cpu4",
+      "low_level_explicit_nonspot",
+      "detail_redirect_retry_disabled",
+      "generated_detail_route",
+      "blocked_0",
+      "blocked_1",
+      "blocked_2",
+      "blocked_3",
+      "blocked_4",
+      "three_request_budget"
+    ],
+    "creation_mock": {
+      "high_level_create_keys": [
+        "cloudSpaceEnvironmentTemplateId",
+        "clusterId",
+        "disableSecrets",
+        "displayName",
+        "name",
+        "sandbox",
+        "seedFiles"
+      ],
+      "high_level_run_keys": [
+        "clusterId",
+        "localSource"
+      ],
+      "explicit_body": {
+        "cloudSpaceEnvironmentTemplateId": "fixture-template",
+        "clusterId": "fixture-cloud",
+        "computeName": "cpu-4",
+        "disableSecrets": true,
+        "name": "fixture-name",
+        "spot": false
+      },
+      "backend_acceptance": "NOT_TESTED"
+    },
+    "price_property_docs": {
+      "cost": "Gets the cost of this V1ClusterAccelerator.  # noqa: E501\n\n\n        :return: The cost of this V1ClusterAccelerator.  # noqa: E501\n        :rtype: float",
+      "original_cost": "Gets the original_cost of this V1ClusterAccelerator.  # noqa: E501\n\n        Promo pricing display fields. Populated only when an active GPU promo campaign matches this SKU (provider/region/machine_type). `cost`, `spot_price`, etc. already reflect the EFFECTIVE (promo) rate; these fields surface the original catalog rate and campaign metadata so the UI can render strikethrough + badge.  Catalog on-demand credits/hour (for strikethrough)  # noqa: E501\n\n        :return: The original_cost of this V1ClusterAccelerator.  # noqa: E501\n        :rtype: float",
+      "spot_price": "Gets the spot_price of this V1ClusterAccelerator.  # noqa: E501\n\n\n        :return: The spot_price of this V1ClusterAccelerator.  # noqa: E501\n        :rtype: float"
+    },
+    "test_count": 17
+  },
+  "sha": "39107469d07f2e6f2af83afeb83961dc57fade96",
+  "run_id": "35515430392",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35515430392"
+}

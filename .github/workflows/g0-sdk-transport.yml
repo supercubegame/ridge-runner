@@ -2,7 +2,7 @@ name: G0 credential-free SDK transport fixture
 on:
   push:
     branches: [audit/g0-sdk-transport-20260920]
-    paths: [tools/g0_read_policy.py, tools/g0_sdk_fixture.py, .github/workflows/g0-sdk-transport.yml]
+    paths: [tools/g0_read_policy.py, tools/g0_sdk_fixture.py, tools/g0_response_fixture.py, .github/workflows/g0-sdk-transport.yml]
 permissions:
   contents: read
 jobs:
@@ -22,7 +22,9 @@ jobs:
           DO_NOT_TRACK: '1'
           LIGHTNING_DISABLE_VERSION_CHECK: '1'
           LIGHTNING_DEBUG: '0'
-        run: timeout 90 /tmp/g0-sdk/bin/python tools/g0_sdk_fixture.py
+        run: |
+          timeout 90 /tmp/g0-sdk/bin/python tools/g0_sdk_fixture.py
+          timeout 90 /tmp/g0-sdk/bin/python tools/g0_response_fixture.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

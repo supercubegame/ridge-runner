@@ -1,0 +1,76 @@
+name: One approved temporary authenticated 8061 trial
+on:
+  push:
+    branches: [audit/runtime-trial-8061-20260920]
+    paths: [tools/runtime_trial.py, .github/workflows/runtime-trial-8061.yml]
+permissions:
+  contents: read
+concurrency:
+  group: runtime-trial-one-approval-20260920-1114
+  cancel-in-progress: false
+jobs:
+  gate:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 tools/runtime_trial.py --self-test
+  trial:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install fixed SDK and check Basic model without credentials
+        run: |
+          python3 -m venv /tmp/runtime-sdk
+          /tmp/runtime-sdk/bin/pip install --disable-pip-version-check 'git+https://github.com/Lightning-AI/sdk.git@a7709959692a4abdcd152f381585eb1de826923b#subdirectory=python'
+          LIGHTNING_DISABLE_VERSION_CHECK=1 /tmp/runtime-sdk/bin/python -c "from lightning_sdk.lightning_cloud.openapi import V1EndpointAuth; a=V1EndpointAuth(enabled=True,username='fixture',password='sentinel',user_api_key=False); assert a.to_dict()['enabled'] is True and a.username=='fixture' and a.password=='sentinel' and not a.user_api_key; print('PASS Basic auth model')"
+      - name: Consume single-use authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/runtime_trial.py --claim
+      - id: probe
+        continue-on-error: true
+        env:
+          LIGHTNING_USER_ID: ${{ secrets.LIGHTNING_USER_ID }}
+          LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_API_KEY }}
+          DO_NOT_TRACK: '1'
+        run: timeout 600 /tmp/runtime-sdk/bin/python tools/runtime_trial.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: runtime-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+          retention-days: 7
+      - if: always()
+        env:
+          RESULT: ${{ steps.probe.outcome }}
+        run: test "$RESULT" = success
+  evidence:
+    needs: [gate, trial]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: runtime-${{ github.sha }}
+          path: out
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

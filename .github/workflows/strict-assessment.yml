@@ -1,0 +1,49 @@
+name: T01 strict offline report regression
+on:
+  push:
+    branches: [audit/strict-assessment-t01-20260920]
+    paths: [tools/strict_assess.py, docs/strict-assessment.md, .github/workflows/strict-assessment.yml]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Read immutable historical evidence only
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 1dfb4a5b07071609b4b44b33a64797403ad4f998
+          path: evidence
+          sparse-checkout: reports
+          persist-credentials: false
+      - name: Strict offline regression without platform credentials
+        run: |
+          python3 - <<'PY'
+          import ast, pathlib
+          tree=ast.parse(pathlib.Path('tools/strict_assess.py').read_text())
+          allowed={'json','pathlib','sys','copy','hashlib','argparse'}
+          for n in ast.walk(tree):
+              if isinstance(n,ast.Import):
+                  assert all(a.name in allowed for a in n.names)
+              if isinstance(n,ast.ImportFrom):
+                  assert n.module in allowed
+          PY
+          python3 tools/strict_assess.py evidence/reports/studio-867b186afb63a102f3dea7d6d7a9fdaed4153a44.json --self-test --output out/strict-assessment.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open('out/strict-assessment.json'))
+          assert len(r['tests'])==30
+          assert r['assessment']['strict_first_good_pair']==7
+          assert r['assessment']['strict_good_suffix_pairs']==20
+          print('PASS: 30 checks; pair7; 20 strict pairs; no Lightning SDK or credentials')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: strict-assessment-${{ github.sha }}
+          path: out/strict-assessment.json
+          if-no-files-found: error
+          retention-days: 30

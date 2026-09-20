@@ -1,0 +1,41 @@
+name: Local SSH restrictions, no Lightning credentials
+on:
+  push:
+    branches: [audit/ssh-restrictions-local-20260920]
+    paths: [tools/ssh_restrictions_local.py, .github/workflows/ssh-restrictions-local.yml]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Prepare ephemeral runner only
+        run: |
+          if [ ! -x /usr/sbin/sshd ]; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq openssh-server
+          fi
+          sudo mkdir -p /run/sshd
+      - id: probe
+        continue-on-error: true
+        run: timeout 120 python3 tools/ssh_restrictions_local.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ssh-local-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+      - if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py
+      - if: always()
+        env:
+          RESULT: ${{ steps.probe.outcome }}
+        run: test "$RESULT" = success

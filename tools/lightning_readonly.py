@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Pinned SDK, GET-only transport, no Studio keepalive, allowlisted evidence."""
-import contextlib,datetime,http.client,importlib.metadata,io,json,logging,os,pathlib,re,subprocess,sys,urllib.parse
+import contextlib,datetime,http.client,importlib.metadata,json,logging,os,pathlib,re,sys,urllib.parse
 SDK_SHA='a7709959692a4abdcd152f381585eb1de826923b'
 TARGET='peaceful-dewdney-424'
 class ReadOnlyViolation(RuntimeError):pass
@@ -41,22 +41,25 @@ def main():
             if not isinstance(self,http.client.HTTPSConnection):raise ReadOnlyViolation('HTTPS transport required')
             check_request(method,self.host,url)
         except ReadOnlyViolation:
-            report['network']['blocked_requests']+=1;raise
+            report['network']['blocked_requests']+=1
+            report['blocked_method']=method if method in ('GET','POST','PUT','PATCH','DELETE','HEAD','OPTIONS') else 'OTHER'
+            report['blocked_host_category']='lightning' if self.host in ('lightning.ai','api.lightning.ai') else 'non_allowlisted'
+            raise
         report['network']['get_requests']+=1
         return original(self,method,url,*args,**kwargs)
     try:
         if not all(os.environ.get(k,'').strip() for k in ('LIGHTNING_USER_ID','LIGHTNING_API_KEY')):
             record('credentials_present','FAIL','One or both GitHub Secrets missing');return 1
         record('credentials_present','PASS','Both API credential Secrets supplied; values withheld')
-        # Disable logging/telemetry before import. Raw SDK exceptions never leave process.
         logging.disable(logging.CRITICAL)
         os.environ['LIGHTNING_DEBUG']='0'
+        os.environ['LIGHTNING_DISABLE_VERSION_CHECK']='1'
         stage='sdk_import'
-        with contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()):
+        # /dev/null supplies fileno needed by SDK noninteractive setup; no raw output retained.
+        with open(os.devnull,'w') as sink,contextlib.redirect_stdout(sink),contextlib.redirect_stderr(sink):
             http.client.HTTPConnection.putrequest=guarded
             from lightning_sdk import Studio
             from lightning_sdk.api.studio_api import StudioApi
-            # Prevent automatic background threads even when a running Studio is resolved.
             Studio._setup=lambda self:None
             def forbidden(*args,**kwargs):raise ReadOnlyViolation('Keepalive/API mutation prohibited')
             StudioApi.start_keeping_alive=forbidden
@@ -75,7 +78,6 @@ def main():
             config=studio._studio.code_config
             disabled=getattr(config,'disable_auto_shutdown',None)
             timeout=getattr(config,'idle_shutdown_seconds',None)
-            # Preserve unset/unknown rather than converting null to enabled.
             if not isinstance(disabled,bool):raise ValueError('Auto-sleep boolean not present')
             report['auto_sleep_enabled']=not disabled
             if isinstance(timeout,str) and timeout.isdigit():timeout=int(timeout)
@@ -86,7 +88,6 @@ def main():
             machine=studio.machine
             report['machine']=None if machine is None else safe_label(machine)
             record('read_machine','PASS','Active machine read without changes')
-            # Port auto-start is supplementary, not needed to validate account authentication.
             stage='read_port_metadata'
             try:
                 endpoints=studio.list_ports();matches=[]
@@ -110,7 +111,6 @@ def main():
     finally:
         http.client.HTTPConnection.putrequest=original
         text=json.dumps(report,indent=2)
-        # Last defense against accidental literal credential serialization.
         for name in ('LIGHTNING_USER_ID','LIGHTNING_API_KEY'):
             value=os.environ.get(name,'')
             if value and value in text:raise RuntimeError('Credential serialization refused')

@@ -1,0 +1,188 @@
+{
+  "status": "FAIL",
+  "kind": "approved_runtime_v8_cluster_only",
+  "omitted_request_fields": [
+    "auth",
+    "command",
+    "instanceType",
+    "terminalSessionId",
+    "customDomain"
+  ],
+  "causation": "CLUSTER_ONLY_REQUEST_DELTA_NOT_CAUSAL_PROOF",
+  "started_at_utc": "2026-09-20T11:21:32.679979+00:00",
+  "checks": [
+    "preflight_original_cpu_game_no_endpoint_conflict",
+    "new_identity_auth_omitted_autostart_false",
+    "anonymous_exact_marker",
+    "bounded_service_closed"
+  ],
+  "cleanup": {
+    "service_finished": true,
+    "8061_no_listeners_after": true,
+    "delete_returned": true,
+    "endpoint_list_absent": true,
+    "single_get": {
+      "http_status": 500,
+      "not_found_marker": true
+    },
+    "original_endpoint_unchanged": true,
+    "machine_sleep_unchanged": true,
+    "original_game_version_ok": true
+  },
+  "service_lifetime_seconds": 120,
+  "service_hard_kill_seconds": 165,
+  "public_attempts": [
+    {
+      "label": "anonymous",
+      "at_utc": "2026-09-20T11:21:35.154135+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.191
+    },
+    {
+      "label": "anonymous",
+      "at_utc": "2026-09-20T11:21:38.345574+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.2
+    },
+    {
+      "label": "anonymous",
+      "at_utc": "2026-09-20T11:21:41.546230+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.781
+    },
+    {
+      "label": "anonymous",
+      "at_utc": "2026-09-20T11:21:46.328281+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.487
+    },
+    {
+      "label": "anonymous",
+      "at_utc": "2026-09-20T11:21:50.815579+00:00",
+      "http_status": 200,
+      "exact_marker": true,
+      "body_bytes_sampled": 68,
+      "elapsed_seconds": 0.269
+    },
+    {
+      "label": "root_anonymous",
+      "at_utc": "2026-09-20T11:21:51.084870+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.585
+    }
+  ],
+  "url_source": "user_API_Builder_screenshots_12:01",
+  "endpoint_url": "https://8061-01m2watakghqmc1fnymkg5czax.cloudspaces.litng.ai",
+  "studio_start_stop": "NOT_RUN",
+  "auto_wake": "NOT_RUN",
+  "ssh": "NOT_USED",
+  "cluster_input": {
+    "source": "fresh_Studio_response",
+    "present": true,
+    "value": "REDACTED"
+  },
+  "preflight_state": {
+    "phase": "CLOUD_SPACE_INSTANCE_STATE_RUNNING",
+    "requested_present": false
+  },
+  "last_stage": "cleanup",
+  "network": {
+    "get": 55,
+    "writes": {
+      "create": 1,
+      "command": 1,
+      "delete": 1
+    },
+    "blocked": 0
+  },
+  "wire_keys": {
+    "cloudspace": [
+      "autoStart",
+      "cloudspaceId",
+      "clusterId",
+      "port",
+      "type"
+    ],
+    "top_level": [
+      "cloudspace",
+      "name",
+      "ports"
+    ]
+  },
+  "created_endpoint_id": "endp_01m2z8sm5tb85gp3z9x17fjmh7",
+  "project_id": "01hrhh1avmp22zbv37depwjkp8",
+  "routing_readback": {
+    "instance_type": "UNSET",
+    "cluster_present": false,
+    "cluster_matches_studio": false,
+    "studio_job_present": true,
+    "studio_job_matches_original": false,
+    "terminal_session_present": false
+  },
+  "auth_readback": {
+    "present": true,
+    "enabled": false
+  },
+  "api_url_count": 0,
+  "anonymous_marker_verified": true,
+  "trial_status": "FAIL",
+  "service": {
+    "exit_code": 0,
+    "after": {
+      "tcp4": 0,
+      "tcp6": 0
+    },
+    "before": {
+      "tcp4": 0,
+      "tcp6": 0
+    },
+    "bound": true,
+    "counters": {
+      "accepted_tcp": 2,
+      "method_counts": {
+        "GET": 2,
+        "HEAD": 0,
+        "OPTIONS": 0,
+        "OTHER": 0,
+        "POST": 0
+      },
+      "parse_error_count": 0,
+      "read_timeout_count": 0,
+      "status_counts": {
+        "200": 2,
+        "400": 0,
+        "404": 0,
+        "405": 0,
+        "408": 0,
+        "501": 0,
+        "other": 0
+      }
+    },
+    "elapsed_seconds": 120.047,
+    "http_classification": {
+      "local_selfcheck": true,
+      "probe_get": 1,
+      "root_get": 0
+    },
+    "lifetime_seconds": 120,
+    "local_selfcheck_http": true,
+    "status": "EXPIRED_CLOSED"
+  },
+  "error_type": "RuntimeError",
+  "error_code": "INCOMPLETE",
+  "finished_at_utc": "2026-09-20T11:23:39.473372+00:00",
+  "sha": "353d3d3e493ea52ba451262148f5d573b5657912",
+  "run_id": "35507573154",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35507573154"
+}

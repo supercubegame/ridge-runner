@@ -1,0 +1,51 @@
+name: API readiness candidate local fixtures only
+on:
+  push:
+    branches: [audit/api-readiness-candidate-20260920]
+    paths: [tools/api_readiness.py, tools/test_api_readiness.py, .github/workflows/api-readiness-candidate.yml]
+permissions:
+  contents: read
+jobs:
+  gate:
+    if: github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/audit/api-readiness-candidate-20260920'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Real local HTTP fixture tests, no platform credentials
+        id: tests
+        continue-on-error: true
+        run: python3 tools/test_api_readiness.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: readiness-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+      - name: Require test success
+        if: always()
+        env:
+          RESULT: ${{ steps.tests.outcome }}
+        run: test "$RESULT" = success
+  evidence:
+    needs: gate
+    if: always() && github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/audit/api-readiness-candidate-20260920'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: readiness-${{ github.sha }}
+          path: out
+      - name: Publish redacted report and verify readback
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

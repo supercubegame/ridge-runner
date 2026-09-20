@@ -1,0 +1,31 @@
+{
+  "schema": 7,
+  "kind": "legacy_endpoint_reference_readonly",
+  "status": "PASS",
+  "resolution": "UNRESOLVED_IN_LEGACY_API",
+  "network": {
+    "get": 9,
+    "blocked": 0,
+    "writes": 0
+  },
+  "ssh": "NOT_USED",
+  "public_preview": "NOT_REQUESTED",
+  "sdk_source_sha": "a7709959692a4abdcd152f381585eb1de826923b",
+  "command": {
+    "truthy": false,
+    "characters": 0,
+    "kind": "EMPTY"
+  },
+  "auto_start": false,
+  "studio_status": "Running",
+  "reference_present": true,
+  "legacy_lookup": {
+    "error_type": "ApiException",
+    "http_status": 404
+  },
+  "observed_at_utc": "2026-09-20T02:20:49.292655+00:00",
+  "sha": "e83148845309680fe775722a85a4ce5546151c64",
+  "run_id": "35483724617",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35483724617"
+}

@@ -1,0 +1,66 @@
+name: Read-only endpoint command and job inspection
+on:
+  push:
+    branches: [audit/endpoint-readonly-20260920]
+    paths: [tools/endpoint_readonly.py, .github/workflows/endpoint-readonly.yml]
+permissions:
+  contents: read
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: |
+          python3 tools/lightning_readonly.py --self-test
+          python3 tools/endpoint_readonly.py --self-test
+  probe:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: |
+          python3 -m venv /tmp/endpoint-readonly
+          /tmp/endpoint-readonly/bin/pip install --disable-pip-version-check 'git+https://github.com/Lightning-AI/sdk.git@a7709959692a4abdcd152f381585eb1de826923b#subdirectory=python'
+      - id: probe
+        continue-on-error: true
+        env:
+          LIGHTNING_USER_ID: ${{ secrets.LIGHTNING_USER_ID }}
+          LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_API_KEY }}
+          DO_NOT_TRACK: '1'
+        run: timeout 120 /tmp/endpoint-readonly/bin/python tools/endpoint_readonly.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: endpoint-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+          retention-days: 3
+      - if: always()
+        env:
+          RESULT: ${{ steps.probe.outcome }}
+        run: test "$RESULT" = success
+  evidence:
+    needs: [gate, probe]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: endpoint-${{ github.sha }}
+          path: out
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

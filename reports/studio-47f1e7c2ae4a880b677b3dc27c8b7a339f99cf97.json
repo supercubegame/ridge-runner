@@ -1,0 +1,63 @@
+{
+  "status": "FAIL",
+  "kind": "approved_runtime_v2",
+  "started_at_utc": "2026-09-20T04:17:47.916851+00:00",
+  "checks": [
+    "preflight_original_cpu_game_no_endpoint_conflict",
+    "new_identity_basic_auth_autostart_false"
+  ],
+  "cleanup": {
+    "delete_returned": true,
+    "endpoint_list_absent": true,
+    "single_get": {
+      "http_status": 500,
+      "not_found_marker": true
+    },
+    "service_finished": true,
+    "8061_no_listeners_after": true,
+    "original_endpoint_unchanged": true,
+    "machine_sleep_unchanged": true,
+    "original_game_version_ok": true
+  },
+  "service_lifetime_seconds": 100,
+  "url_source": "user_API_Builder_screenshots_12:01",
+  "endpoint_url": "https://8061-01m2watakghqmc1fnymkg5czax.cloudspaces.litng.ai",
+  "studio_start_stop": "NOT_RUN",
+  "auto_wake": "NOT_RUN",
+  "last_stage": "cleanup",
+  "network": {
+    "get": 52,
+    "writes": {
+      "create": 1,
+      "command": 1,
+      "delete": 1
+    },
+    "blocked": 0
+  },
+  "created_endpoint_id": "endp_01m2yghq5tjtsk5aatkgybg3kr",
+  "project_id": "01hrhh1avmp22zbv37depwjkp8",
+  "api_url_count": 0,
+  "valid_auth_last_http_status": 502,
+  "service": {
+    "exit_code": 0,
+    "after": {
+      "tcp4": 0,
+      "tcp6": 0
+    },
+    "before": {
+      "tcp4": 0,
+      "tcp6": 0
+    },
+    "bound": true,
+    "elapsed_seconds": 100.002,
+    "lifetime_seconds": 100,
+    "status": "EXPIRED_CLOSED"
+  },
+  "error_type": "RuntimeError",
+  "error_code": "EXACT_AUTHENTICATED_MARKER_NOT_VERIFIED",
+  "finished_at_utc": "2026-09-20T04:19:33.027479+00:00",
+  "sha": "47f1e7c2ae4a880b677b3dc27c8b7a339f99cf97",
+  "run_id": "35488759159",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35488759159"
+}

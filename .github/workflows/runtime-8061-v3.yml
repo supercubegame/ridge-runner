@@ -1,0 +1,75 @@
+name: Approved 12:23 bounded 8061 diagnostics
+on:
+  push:
+    branches: [audit/runtime-8061-v3-20260920]
+    paths: [tools/runtime_v3.py, tools/diagnostic_service.py, .github/workflows/runtime-8061-v3.yml]
+permissions:
+  contents: read
+concurrency:
+  group: runtime-v3-one-approval-20260920-1223
+  cancel-in-progress: false
+jobs:
+  gate:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 tools/runtime_v3.py --self-test
+  trial:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install fixed SDK without credentials
+        run: |
+          python3 -m venv /tmp/sdk
+          /tmp/sdk/bin/pip install --disable-pip-version-check 'git+https://github.com/Lightning-AI/sdk.git@a7709959692a4abdcd152f381585eb1de826923b#subdirectory=python'
+      - name: Consume single-use 12:23 authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/runtime_v3.py --claim
+      - id: probe
+        continue-on-error: true
+        env:
+          LIGHTNING_USER_ID: ${{ secrets.LIGHTNING_USER_ID }}
+          LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_API_KEY }}
+          DO_NOT_TRACK: '1'
+        run: timeout 600 /tmp/sdk/bin/python tools/runtime_v3.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: runtime-v3-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+          retention-days: 7
+      - if: always()
+        env:
+          RESULT: ${{ steps.probe.outcome }}
+        run: test "$RESULT" = success
+  evidence:
+    needs: [gate, trial]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: runtime-v3-${{ github.sha }}
+          path: out
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

@@ -1,0 +1,50 @@
+{
+  "kind": "isolated_loopback_sshd_restrictions",
+  "status": "PASS",
+  "platform_requests": 0,
+  "lightning_credentials": "NOT_PROVIDED",
+  "tests": [
+    {
+      "name": "restrict_alone_allows_command",
+      "pass": true
+    },
+    {
+      "name": "forced_false_blocks_requested_command",
+      "pass": true
+    },
+    {
+      "name": "permitted_tcp_target_returns_marker",
+      "pass": true
+    },
+    {
+      "name": "other_tcp_target_denied",
+      "pass": true
+    },
+    {
+      "name": "permitopen_does_not_block_remote_forward",
+      "pass": true
+    },
+    {
+      "name": "permitlisten_none_rejects_key_not_remote_only",
+      "pass": true
+    },
+    {
+      "name": "restrict_without_reenable_blocks_tcp",
+      "pass": true
+    },
+    {
+      "name": "created_processes_exited",
+      "pass": true
+    }
+  ],
+  "limitations": [
+    "Local CI OpenSSH, not Lightning SSH implementation.",
+    "No proof of Lightning support, authentication or forwarding.",
+    "Temporary loopback test daemon permits root key login with StrictModes disabled for fixture paths; not a deployment recommendation."
+  ],
+  "ssh_version": "OpenSSH_9.6p1 Ubuntu-3ubuntu13.19, OpenSSL 3.0.13 30 Jan 2024",
+  "sha": "c9a522d55d78f46a7f1cfea732d9dcb042a5f451",
+  "run_id": "35503111638",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35503111638"
+}

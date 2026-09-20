@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "kind": "g0_sdk_transport_fixture",
+  "sdk_source_sha": "a7709959692a4abdcd152f381585eb1de826923b",
+  "platform_requests": 0,
+  "network_attempts": 0,
+  "account_qualification": "NOT_RUN",
+  "checks": [
+    "exact_source_ApiClient",
+    "exact_source_RESTClientObject",
+    "policy_allowed_0",
+    "policy_allowed_1",
+    "policy_allowed_2",
+    "policy_allowed_3",
+    "policy_allowed_4",
+    "policy_blocked_0",
+    "policy_blocked_1",
+    "policy_blocked_2",
+    "policy_blocked_3",
+    "policy_blocked_4",
+    "policy_blocked_5",
+    "policy_blocked_6",
+    "policy_blocked_7",
+    "policy_blocked_8",
+    "policy_blocked_9",
+    "policy_blocked_10",
+    "policy_blocked_11",
+    "policy_blocked_12",
+    "policy_blocked_13",
+    "policy_blocked_14",
+    "policy_blocked_15",
+    "policy_budget_enforced",
+    "policy_cost_22",
+    "policy_cost_23",
+    "policy_cost_24",
+    "policy_cost_25",
+    "policy_cost_26",
+    "policy_cost_27",
+    "policy_cost_28",
+    "policy_cost_29",
+    "stock_rest_no_explicit_redirect_retry_flags",
+    "generated_route_0",
+    "transport_flags_0",
+    "generated_route_1",
+    "transport_flags_1",
+    "generated_route_2",
+    "transport_flags_2",
+    "generated_route_3",
+    "transport_flags_3",
+    "generated_route_4",
+    "transport_flags_4",
+    "http_302_single_backend_attempt",
+    "http_429_single_backend_attempt",
+    "http_503_single_backend_attempt",
+    "adapter_block_0",
+    "adapter_block_1",
+    "adapter_block_2",
+    "adapter_block_3",
+    "adapter_block_4",
+    "adapter_block_5",
+    "adapter_block_6",
+    "generated_call_budget",
+    "pagination_complete",
+    "pagination_budget_incomplete",
+    "pagination_repeat_incomplete",
+    "pagination_invalid_token",
+    "pagination_invalid_shape",
+    "zero_network_attempts"
+  ],
+  "source_blobs": {
+    "ApiClient": "4e2d72cc5b560d704a5286489f0a18ba86bd6eac",
+    "RESTClientObject": "7e774cfc32006586a63de1ee1298e66434f08566",
+    "ClusterServiceApi": "4873d4dab0d46558fc32a484fd10900c2677fe48",
+    "CloudSpaceEnvironmentTemplateServiceApi": "212769359d9db06c8ee6a574f516c2e80962524f"
+  },
+  "routes": [
+    {
+      "method": "cluster_service_list_project_clusters",
+      "fixture_url": "https://lightning.ai/v1/projects/fixture-project/clusters"
+    },
+    {
+      "method": "cluster_service_list_clusters",
+      "fixture_url": "https://lightning.ai/v1/core/clusters?orgId=fixture-org&projectId=fixture-project"
+    },
+    {
+      "method": "cluster_service_list_default_cluster_accelerators",
+      "fixture_url": "https://lightning.ai/v1/core/accelerators?cloudProvider=AWS&projectId=fixture-project"
+    },
+    {
+      "method": "cloud_space_environment_template_service_list_cloud_space_environment_templates",
+      "fixture_url": "https://lightning.ai/v1/cloudspaces/environment-templates?orgId=fixture-org&limit=20"
+    },
+    {
+      "method": "cloud_space_environment_template_service_list_managed_cloud_space_environment_templates",
+      "fixture_url": "https://lightning.ai/v1/cloudspaces/environment-templates/managed?orgId=fixture-org&pageToken=fixture+%2B%2F%3D&limit=20"
+    }
+  ],
+  "test_count": 60,
+  "limitations": [
+    "Synthetic data and pool backend; no real Lightning HTTP request",
+    "No account authentication, org resolution, price, quota or template qualification",
+    "Candidate Python guard, not OS network isolation",
+    "Pagination response field remains subject to real response schema verification"
+  ],
+  "sha": "989b7eaf8e970abfa0fc789776ff89b97f3a6fcd",
+  "run_id": "35514380060",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35514380060"
+}

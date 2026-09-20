@@ -140,7 +140,7 @@ def apis():
     cfg = Configuration()
     cfg.host, cfg.proxy, cfg.verify_ssl, cfg.debug = HOST, None, True, False
     client = ApiClient(cfg)
-    return client, ProjectsServiceApi(client), CloudSpaceServiceApi(client), ClusterServiceApi(client), CloudSpaceEnvironmentTemplateServiceApiApi(client)
+    return client, ProjectsServiceApi(client), CloudSpaceServiceApi(client), ClusterServiceApi(client), CloudSpaceEnvironmentTemplateServiceApi(client)
 
 def read(method, **kw):
     response = method(**kw,_preload_content=False,_request_timeout=(3,7))

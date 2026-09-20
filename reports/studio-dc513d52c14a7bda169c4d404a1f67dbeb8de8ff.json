@@ -1,0 +1,43 @@
+{
+  "schema": 5,
+  "kind": "endpoint_readonly",
+  "status": "PASS",
+  "sdk_source_sha": "a7709959692a4abdcd152f381585eb1de826923b",
+  "network": {
+    "get": 8,
+    "blocked": 0,
+    "writes": 0
+  },
+  "ssh": "NOT_USED",
+  "public_preview": "NOT_REQUESTED",
+  "command": {
+    "truthy": false,
+    "characters": 0,
+    "kind": "EMPTY"
+  },
+  "studio_job_id_present": true,
+  "terminal_session_id_present": false,
+  "separate_job_upstream_present": true,
+  "auto_start": false,
+  "endpoint_type": "ENDPOINT_PLUGIN_PORT",
+  "instance_type": "UNSET",
+  "studio_status": "Stopped",
+  "guard_trigger": {
+    "command_truthy": false,
+    "studio_job_id_truthy": true
+  },
+  "observed_at_utc": "2026-09-20T01:05:57.787801+00:00",
+  "job_metadata": {
+    "studio_job_reference_kind": "OTHER_NONEMPTY_REFERENCE",
+    "job_upstream_reference_kind": "EMPTY",
+    "job_references_equal": false,
+    "job_upstream_port_kind": "ALL_ZERO_PLACEHOLDER",
+    "job_auto_start": false,
+    "job_idle_shutdown": false,
+    "job_idle_timeout_kind": "ALL_ZERO_PLACEHOLDER"
+  },
+  "sha": "dc513d52c14a7bda169c4d404a1f67dbeb8de8ff",
+  "run_id": "35480478698",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35480478698"
+}

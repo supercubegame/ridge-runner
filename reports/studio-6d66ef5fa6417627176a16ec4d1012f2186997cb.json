@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "kind": "isolated_endpoint_design_schema",
+  "network_attempts": 0,
+  "platform_requests": 0,
+  "methods": {
+    "endpoint_service_create_endpoint": {
+      "signature": "(self, body: 'EndpointServiceCreateEndpointBody', project_id: 'str', **kwargs) -> 'V1Endpoint'",
+      "path": "/v1/projects/{projectId}/endpoints",
+      "verb": "POST",
+      "response_type": "V1Endpoint",
+      "allowed_params": [
+        "body",
+        "project_id"
+      ],
+      "doc": "endpoint_service_create_endpoint  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.endpoint_service_create_endpoint_with_http_info(body, project_id, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param EndpointServiceCreateEndpointBody body: (required)\n:param str project_id: (required)\n:return: V1Endpoint\n         If the method is called asynchronously,\n         returns the request thread."
+    },
+    "endpoint_service_update_endpoint": {
+      "signature": "(self, body: 'EndpointServiceUpdateEndpointBody', project_id: 'str', id: 'str', **kwargs) -> 'V1Endpoint'",
+      "path": "/v1/projects/{projectId}/endpoints/{id}",
+      "verb": "PUT",
+      "response_type": "V1Endpoint",
+      "allowed_params": [
+        "body",
+        "project_id",
+        "id"
+      ],
+      "doc": "endpoint_service_update_endpoint  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.endpoint_service_update_endpoint_with_http_info(body, project_id, id, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param EndpointServiceUpdateEndpointBody body: (required)\n:param str project_id: (required)\n:param str id: (required)\n:return: V1Endpoint\n         If the method is called asynchronously,\n         returns the request thread."
+    },
+    "endpoint_service_delete_endpoint": {
+      "signature": "(self, project_id: 'str', id: 'str', **kwargs) -> 'V1DeleteEndpointResponse'",
+      "path": "/v1/projects/{projectId}/endpoints/{id}",
+      "verb": "DELETE",
+      "response_type": "V1DeleteEndpointResponse",
+      "allowed_params": [
+        "project_id",
+        "id"
+      ],
+      "doc": "endpoint_service_delete_endpoint  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.endpoint_service_delete_endpoint_with_http_info(project_id, id, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param str project_id: (required)\n:param str id: (required)\n:return: V1DeleteEndpointResponse\n         If the method is called asynchronously,\n         returns the request thread."
+    },
+    "endpoint_service_get_endpoint": {
+      "signature": "(self, project_id: 'str', ref: 'str', **kwargs) -> 'V1Endpoint'",
+      "path": "/v1/projects/{projectId}/endpoints/{ref}",
+      "verb": "GET",
+      "response_type": "V1Endpoint",
+      "allowed_params": [
+        "project_id",
+        "ref",
+        "ref_type"
+      ],
+      "doc": "endpoint_service_get_endpoint  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.endpoint_service_get_endpoint_with_http_info(project_id, ref, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param str project_id: (required)\n:param str ref: (required)\n:param str ref_type:\n:return: V1Endpoint\n         If the method is called asynchronously,\n         returns the request thread."
+    },
+    "cloud_space_service_get_cloud_space_instance_open_ports": {
+      "signature": "(self, project_id: 'str', cloudspace_id: 'str', **kwargs) -> 'V1GetCloudSpaceInstanceOpenPortsResponse'",
+      "path": "/v1/projects/{projectId}/cloudspaces/{cloudspaceId}/open-ports",
+      "verb": "GET",
+      "response_type": "V1GetCloudSpaceInstanceOpenPortsResponse",
+      "allowed_params": [
+        "project_id",
+        "cloudspace_id",
+        "cloudspace_instance_id"
+      ],
+      "doc": "cloud_space_service_get_cloud_space_instance_open_ports  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.cloud_space_service_get_cloud_space_instance_open_ports_with_http_info(project_id, cloudspace_id, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param str project_id: (required)\n:param str cloudspace_id: (required)\n:param str cloudspace_instance_id:\n:return: V1GetCloudSpaceInstanceOpenPortsResponse\n         If the method is called asynchronously,\n         returns the request thread."
+    }
+  },
+  "models": {
+    "EndpointServiceCreateEndpointBody": {
+      "auth": "V1EndpointAuth",
+      "cloudspace": "V1UpstreamCloudSpace",
+      "custom_domain": "str",
+      "name": "str",
+      "openai": "V1UpstreamOpenAI",
+      "ports": "list[str]"
+    },
+    "EndpointServiceUpdateEndpointBody": {
+      "auth": "V1EndpointAuth",
+      "cloudspace": "V1UpstreamCloudSpace",
+      "created_at": "datetime",
+      "custom_domain": "str",
+      "job": "V1UpstreamJob",
+      "lightning_subdomain": "str",
+      "managed": "V1UpstreamManaged",
+      "name": "str",
+      "openai": "V1UpstreamOpenAI",
+      "ports": "list[str]",
+      "prewarm": "V1EndpointPrewarm",
+      "proxy": "bool",
+      "updated_at": "datetime",
+      "urls": "list[str]",
+      "user_id": "str"
+    },
+    "V1DeleteEndpointResponse": {},
+    "V1Endpoint": {
+      "auth": "V1EndpointAuth",
+      "cloudspace": "V1UpstreamCloudSpace",
+      "created_at": "datetime",
+      "custom_domain": "str",
+      "id": "str",
+      "job": "V1UpstreamJob",
+      "lightning_subdomain": "str",
+      "managed": "V1UpstreamManaged",
+      "name": "str",
+      "openai": "V1UpstreamOpenAI",
+      "ports": "list[str]",
+      "prewarm": "V1EndpointPrewarm",
+      "project_id": "str",
+      "proxy": "bool",
+      "updated_at": "datetime",
+      "urls": "list[str]",
+      "user_id": "str"
+    },
+    "V1GetCloudSpaceInstanceOpenPortsResponse": {
+      "ports": "list[str]"
+    },
+    "V1UpstreamCloudSpace": {
+      "auto_start": "bool",
+      "cloudspace_id": "str",
+      "cluster_id": "str",
+      "command": "str",
+      "instance_type": "str",
+      "port": "str",
+      "studio_job_id": "str",
+      "terminal_session_id": "str",
+      "type": "V1EndpointType"
+    },
+    "V1EndpointAuth": {
+      "enabled": "bool",
+      "password": "str",
+      "token": "str",
+      "tokens": "list[str]",
+      "user_api_key": "bool",
+      "username": "str"
+    },
+    "V1EndpointPrewarm": {
+      "expected_body_contains": "str",
+      "expected_status_codes": "list[str]",
+      "headers": "dict(str, str)",
+      "method": "str",
+      "path": "str",
+      "payload": "str"
+    },
+    "V1EndpointType": {},
+    "V1UpstreamJob": {
+      "auto_start": "bool",
+      "idle_shutdown": "bool",
+      "idle_shutdown_seconds": "str",
+      "job_id": "str",
+      "port": "str"
+    },
+    "V1UpstreamManaged": {
+      "id": "str"
+    },
+    "V1UpstreamOpenAI": {
+      "api_key": "str",
+      "base_url": "str"
+    }
+  },
+  "enum_sources": {
+    "V1DeleteEndpointResponse": "class V1DeleteEndpointResponse(object):\n    \"\"\"NOTE: This class is auto generated by the swagger code generator program.\n\n    Do not edit the class manually.\n    \"\"\"\n    \"\"\"\n    Attributes:\n      swagger_types (dict): The key is attribute name\n                            and the value is attribute type.\n      attribute_map (dict): The key is attribute name\n                            and the value is json key in definition.\n    \"\"\"\n    swagger_types = {\n    }\n\n    attribute_map = {\n    }\n\n    def __init__(self):  # noqa: E501\n        \"\"\"V1DeleteEndpointResponse - a model defined in Swagger\"\"\"  # noqa: E501\n        self.discriminator = None\n\n    def to_dict(self) -> dict:\n        \"\"\"Returns the model properties as a dict\"\"\"\n        result = {}\n\n        for attr, _ in six.iteritems(self.swagger_types):\n            value = getattr(self, attr)\n            if isinstance(value, list):\n                result[attr] = list(map(\n                    lambda x: x.to_dict() if hasattr(x, \"to_dict\") else x,\n                    value\n                ))\n            elif hasattr(value, \"to_dict\"):\n                result[attr] = value.to_dict()\n            elif isinstance(value, dict):\n                result[attr] = dict(map(\n                    lambda item: (item[0], item[1].to_dict())\n                    if hasattr(item[1], \"to_dict\") else item,\n                    value.items()\n                ))\n            else:\n                result[attr] = value\n        if issubclass(V1DeleteEndpointResponse, dict):\n            for key, value in self.items():\n                result[key] = value\n\n        return result\n\n    def to_str(self) -> str:\n        \"\"\"Returns the string representation of the model\"\"\"\n        return pprint.pformat(self.to_dict())\n\n    def __repr__(self) -> str:\n        \"\"\"For `print` and `pprint`\"\"\"\n        return self.to_str()\n\n    def __eq__(self, other: 'V1DeleteEndpointResponse') -> bool:\n        \"\"\"Returns true if both objects are equal\"\"\"\n        if not isinstance(other, V1DeleteEndpointResponse):\n            return False\n\n        return self.__dict__ == other.__dict__\n\n    def __ne__(self, other: 'V1DeleteEndpointResponse') -> bool:\n        \"\"\"Returns true if both objects are not equal\"\"\"\n        return not self == other\n",
+    "V1EndpointType": "class V1EndpointType(object):\n    \"\"\"NOTE: This class is auto generated by the swagger code generator program.\n\n    Do not edit the class manually.\n    \"\"\"\n\n    \"\"\"\n    allowed enum values\n    \"\"\"\n    UNSPECIFIED = \"ENDPOINT_UNSPECIFIED\"\n    PLUGIN_API = \"ENDPOINT_PLUGIN_API\"\n    PLUGIN_PORT = \"ENDPOINT_PLUGIN_PORT\"\n    \"\"\"\n    Attributes:\n      swagger_types (dict): The key is attribute name\n                            and the value is attribute type.\n      attribute_map (dict): The key is attribute name\n                            and the value is json key in definition.\n    \"\"\"\n    swagger_types = {\n    }\n\n    attribute_map = {\n    }\n\n    def __init__(self):  # noqa: E501\n        \"\"\"V1EndpointType - a model defined in Swagger\"\"\"  # noqa: E501\n        self.discriminator = None\n\n    def to_dict(self) -> dict:\n        \"\"\"Returns the model properties as a dict\"\"\"\n        result = {}\n\n        for attr, _ in six.iteritems(self.swagger_types):\n            value = getattr(self, attr)\n            if isinstance(value, list):\n                result[attr] = list(map(\n                    lambda x: x.to_dict() if hasattr(x, \"to_dict\") else x,\n                    value\n                ))\n            elif hasattr(value, \"to_dict\"):\n                result[attr] = value.to_dict()\n            elif isinstance(value, dict):\n                result[attr] = dict(map(\n                    lambda item: (item[0], item[1].to_dict())\n                    if hasattr(item[1], \"to_dict\") else item,\n                    value.items()\n                ))\n            else:\n                result[attr] = value\n        if issubclass(V1EndpointType, dict):\n            for key, value in self.items():\n                result[key] = value\n\n        return result\n\n    def to_str(self) -> str:\n        \"\"\"Returns the string representation of the model\"\"\"\n        return pprint.pformat(self.to_dict())\n\n    def __repr__(self) -> str:\n        \"\"\"For `print` and `pprint`\"\"\"\n        return self.to_str()\n\n    def __eq__(self, other: 'V1EndpointType') -> bool:\n        \"\"\"Returns true if both objects are equal\"\"\"\n        if not isinstance(other, V1EndpointType):\n            return False\n\n        return self.__dict__ == other.__dict__\n\n    def __ne__(self, other: 'V1EndpointType') -> bool:\n        \"\"\"Returns true if both objects are not equal\"\"\"\n        return not self == other\n"
+  },
+  "sha": "6d66ef5fa6417627176a16ec4d1012f2186997cb",
+  "run_id": "35485222779",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35485222779"
+}

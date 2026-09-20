@@ -1,20 +1,23 @@
-"""Read exact temporary endpoint after deletion, without any platform writes."""
-import contextlib,datetime,http.client,json,logging,os,pathlib,sys,urllib.parse
+"""Final exact-ID deletion readback; only allowlisted response classifications."""
+import contextlib,datetime,http.client,json,logging,os,pathlib,re,sys
 import endpoint_readonly as m
 EID='endp_01m2yd678z0rpgnxp70nstknhq'
 SID='01m2watakghqmc1fnymkg5czax'
 NAME='ridge-autowake-probe-8061'
-def summarize(e):
- up=e.cloudspace
- return {'id_matches':e.id==EID,'name_matches':e.name==NAME,'studio_matches':up is not None and up.cloudspace_id==SID,
-  'ports':[str(v) for v in (e.ports or []) if str(v) in ('8060','8061')],
-  'url_count':len(e.urls or []),'url_shapes':[{'scheme':urllib.parse.urlsplit(v).scheme if urllib.parse.urlsplit(v).scheme in ('http','https') else 'OTHER','has_host':bool(urllib.parse.urlsplit(v).hostname),'has_path':bool(urllib.parse.urlsplit(v).path),'has_userinfo':bool(urllib.parse.urlsplit(v).username),'has_query':bool(urllib.parse.urlsplit(v).query)} for v in (e.urls or [])],
-  'auto_start':up.auto_start if up is not None else None,'auth_enabled':e.auth.enabled if e.auth is not None else None}
+def classify_error(error):
+ text=str(error).lower()
+ return {'error_type':type(error).__name__,'http_status':getattr(error,'status',None) if type(getattr(error,'status',None)) is int else None,
+ 'mentions_not_found':'not found' in text or 'not_found' in text or 'notfound' in text,
+ 'mentions_404':bool(re.search(r'\b404\b',text)),
+ 'mentions_permission':any(v in text for v in ('permission','unauthorized','forbidden'))}
 def test():
- m.selftest();print('PASS inherited read-only/redaction checks')
+ m.selftest()
+ assert classify_error(Exception('404 Not Found sentinel-secret'))['mentions_not_found']
+ assert 'sentinel-secret' not in json.dumps(classify_error(Exception('404 Not Found sentinel-secret')))
+ print('PASS error redaction and inherited guards')
 def main():
  import urllib3.connection
- r={'status':'FAIL','kind':'temporary_endpoint_cleanup_readback','network':{'get':0,'blocked':0,'writes':0},'command_execution':'NOT_RUN','public_preview':'NOT_REQUESTED'}
+ r={'status':'FAIL','kind':'exact_deleted_endpoint_raw_readback','network':{'get':0,'blocked':0,'writes':0},'command_execution':'NOT_RUN'}
  original=http.client.HTTPConnection.putrequest
  def guard(conn,method,url,*a,**kw):
   try:
@@ -36,17 +39,25 @@ def main():
    assert s._studio.id==SID
    client=s._studio_api._client
    try:
-    e=client.endpoint_service_get_endpoint(project_id=s._teamspace.id,ref=EID,_request_timeout=(10,20))
-    r['direct_lookup']='RETURNED';r['endpoint']=summarize(e)
-   except Exception as e:
-    r['direct_lookup']='NOT_FOUND' if getattr(e,'status',None)==404 else 'UNRESOLVED'
-    r['lookup_error_type']=type(e).__name__
-    if isinstance(getattr(e,'status',None),int):r['lookup_http_status']=e.status
+    response=client.endpoint_service_get_endpoint(project_id=s._teamspace.id,ref=EID,_request_timeout=(10,20),_preload_content=False)
+    r['raw_response_type']=type(response).__name__
+    r['raw_status']=getattr(response,'status',None) if type(getattr(response,'status',None)) is int else None
+    data=getattr(response,'data',b'')
+    if isinstance(data,bytes) and len(data)<65536:
+     try:
+      payload=json.loads(data)
+      if isinstance(payload,dict):
+       r['response_fields']=[k for k in ('id','endpoint','error','message','code','detail') if k in payload]
+       r['payload_exact_id']=payload.get('id')==EID
+       text=json.dumps(payload).lower()
+       r['payload_not_found']='not found' in text or 'not_found' in text or 'notfound' in text
+     except ValueError:r['json_parsed']=False
+    if hasattr(response,'release_conn'):response.release_conn()
+   except Exception as e:r['lookup_error']=classify_error(e)
    es=s.list_ports()
    r['exact_id_in_list']=any(e.id==EID for e in es)
    r['candidate_name_count']=sum(e.name==NAME for e in es)
    r['port8061_count']=sum('8061' in [str(v) for v in (e.ports or [])] for e in es)
-   r['cleanup_confirmed']=r['direct_lookup']=='NOT_FOUND' and not r['exact_id_in_list'] and r['candidate_name_count']==0 and r['port8061_count']==0
    r['studio_status']=m.safe_label(s.status)
    assert r['network']['blocked']==0;r['status']='PASS'
  except Exception as e:r['error_type']=type(e).__name__

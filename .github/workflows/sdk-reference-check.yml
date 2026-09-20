@@ -1,0 +1,51 @@
+name: SDK reference claims without platform credentials
+on:
+  push:
+    branches: [audit/sdk-reference-check-20260920]
+    paths: [tools/sdk_reference_check.py, .github/workflows/sdk-reference-check.yml]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install pinned SDK without platform credentials
+        run: |
+          python3 -m venv /tmp/sdk-reference
+          /tmp/sdk-reference/bin/pip install --disable-pip-version-check 'git+https://github.com/Lightning-AI/sdk.git@a7709959692a4abdcd152f381585eb1de826923b#subdirectory=python'
+      - id: verify
+        continue-on-error: true
+        run: /tmp/sdk-reference/bin/python tools/sdk_reference_check.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sdk-reference-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+      - if: always()
+        env:
+          RESULT: ${{ steps.verify.outcome }}
+        run: test "$RESULT" = success
+  evidence:
+    needs: check
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: sdk-reference-${{ github.sha }}
+          path: out
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

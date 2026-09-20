@@ -1,34 +1,36 @@
-"""Read exact endpoint reference via legacy app GET. No command execution."""
+"""Compare endpoint reference with existing sessions. Never execute or fetch output."""
 import contextlib,datetime,http.client,json,logging,os,pathlib,re,sys
 import endpoint_readonly as m
 
-def classify(app,ref,team,studio):
-    spec=getattr(app,'spec',None)
-    return {'id_matches_reference':getattr(app,'id',None)==ref,
-        'project_matches':getattr(app,'project_id',None)==team,
-        'has_spec':spec is not None,
-        'studio_link_matches':any(getattr(o,k,None)==studio for o in (app,spec) if o is not None for k in ('cloudspace_id','studio_id')),
-        'command_fields':{k:m.command_summary(getattr(spec,k,None)) for k in ('command','entrypoint')},
-        'has_status':getattr(app,'status',None) is not None}
+def compare(sessions,ref,terminal):
+    hits=[]
+    for s in sessions:
+        matches=[k for k in ('id','name') if getattr(s,k,None)==ref]
+        if matches:hits.append({'matched_fields':matches,'command':m.command_summary(getattr(s,'command',None))})
+    return {'session_count':len(sessions),'studio_job_matches':hits,
+        'terminal_reference_present':bool(terminal),
+        'terminal_match_count':sum(bool(terminal) and any(getattr(s,k,None)==terminal for k in ('id','name')) for s in sessions)}
 
 def test():
     from types import SimpleNamespace as N
     m.selftest()
-    app=N(id='ref',project_id='team',spec=N(cloudspace_id='studio',command='echo sentinel-secret',entrypoint=None),status=N())
-    r=classify(app,'ref','team','studio')
-    assert r['id_matches_reference'] and r['project_matches'] and r['studio_link_matches']
-    assert 'sentinel-secret' not in json.dumps(r)
-    assert not classify(app,'other','other','other')['id_matches_reference']
-    assert not classify(app,'other','other','other')['project_matches']
-    assert not classify(app,'other','other','other')['studio_link_matches']
-    assert not classify(N(),'ref','team','studio')['has_spec']
-    print('PASS 6 legacy response identity/redaction checks plus inherited guard tests')
+    entries=[N(id='job-ref',name='sentinel-name',command='echo sentinel-secret'),N(id='session-two',name='job-ref',command='')]
+    r=compare(entries,'job-ref','session-two')
+    assert len(r['studio_job_matches'])==2
+    assert r['studio_job_matches'][0]['matched_fields']==['id']
+    assert r['studio_job_matches'][1]['matched_fields']==['name']
+    assert r['terminal_match_count']==1
+    assert not compare(entries,'missing',None)['studio_job_matches']
+    assert compare([], 'job-ref',None)['session_count']==0
+    assert not compare(entries,'missing','')['terminal_reference_present']
+    assert all(x not in json.dumps(r) for x in ('sentinel-secret','sentinel-name','job-ref','session-two'))
+    print('PASS 8 session comparison/redaction checks plus inherited guard tests')
 
 def main():
     import urllib3.connection
-    report={'schema':7,'kind':'legacy_endpoint_reference_readonly','status':'FAIL','resolution':'UNVERIFIED',
+    report={'schema':8,'kind':'endpoint_session_reference_readonly','status':'FAIL','resolution':'UNVERIFIED',
         'network':{'get':0,'blocked':0,'writes':0},'ssh':'NOT_USED','public_preview':'NOT_REQUESTED',
-        'sdk_source_sha':m.SDK_SHA}
+        'command_output':'NOT_REQUESTED','sdk_source_sha':m.SDK_SHA}
     original=http.client.HTTPConnection.putrequest
     def guard(conn,method,url,*args,**kwargs):
         try:
@@ -60,15 +62,20 @@ def main():
             report.update(command=m.command_summary(up.command),auto_start=up.auto_start,studio_status=m.safe_label(s.status))
             assert isinstance(ref,str) and ref and re.fullmatch(r'[A-Za-z0-9_-]{1,128}',ref)
             report['reference_present']=True
-            try:
-                app=client.lightningapp_instance_service_get_lightningapp_instance(project_id=s._teamspace.id,id=ref,_request_timeout=(10,30))
-                info=classify(app,ref,s._teamspace.id,s._studio.id)
-                report['linked_application']=info
-                report['resolution']='RESOLVED_LEGACY_APPLICATION' if info['id_matches_reference'] and info['project_matches'] else 'LEGACY_RESPONSE_IDENTITY_UNCONFIRMED'
-            except Exception as error:
-                report['legacy_lookup']={'error_type':type(error).__name__}
-                if isinstance(getattr(error,'status',None),int):report['legacy_lookup']['http_status']=error.status
-                report['resolution']='UNRESOLVED_IN_LEGACY_API'
+            if report['studio_status']!='Running':
+                report['resolution']='SESSION_QUERY_SKIPPED_NOT_RUNNING'
+            else:
+                try:
+                    response=client.cloud_space_service_list_cloud_space_sessions(project_id=s._teamspace.id,cloudspace_id=s._studio.id,_request_timeout=(10,30))
+                    sessions=response.sessions
+                    assert isinstance(sessions,list)
+                    summary=compare(sessions,ref,up.terminal_session_id)
+                    report['sessions']=summary
+                    report['resolution']='SESSION_REFERENCE_MATCH_FOUND' if summary['studio_job_matches'] else 'NO_MATCH_IN_RETURNED_SESSIONS'
+                except Exception as error:
+                    report['session_lookup']={'error_type':type(error).__name__}
+                    if isinstance(getattr(error,'status',None),int):report['session_lookup']['http_status']=error.status
+                    report['resolution']='SESSION_LOOKUP_UNRESOLVED'
             assert report['network']['blocked']==0
             report['status']='PASS'
     except Exception as error:

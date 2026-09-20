@@ -1,0 +1,93 @@
+{
+  "kind": "original_8060_raw_metadata_readonly",
+  "status": "PASS",
+  "network": {
+    "get": 6,
+    "blocked": 0,
+    "writes": 0
+  },
+  "public_url": "NOT_REQUESTED",
+  "studio_commands": "NOT_RUN",
+  "endpoint_writes": "NOT_RUN",
+  "started_at_utc": "2026-09-20T09:13:30.315560+00:00",
+  "raw_readback": {
+    "identity_verified": true,
+    "proxy": {
+      "key_present": true,
+      "value": "FALSE"
+    },
+    "job_upstream_present": true,
+    "managed_upstream_present": true,
+    "openai_upstream_present": true,
+    "prewarm_present": true,
+    "lightning_subdomain_present": false,
+    "custom_domain_present": false,
+    "urls_count": 0,
+    "auth_present": true,
+    "auth_enabled": "FALSE",
+    "upstream_type": "PLUGIN_PORT",
+    "cluster_present": false,
+    "studio_job_present": true,
+    "terminal_session_present": false,
+    "unknown_root_field_count": 0,
+    "unknown_upstream_field_count": 0,
+    "known_root_field_presence": {
+      "auth": true,
+      "cloudspace": true,
+      "createdAt": true,
+      "customDomain": true,
+      "id": true,
+      "job": true,
+      "lightningSubdomain": true,
+      "managed": true,
+      "name": true,
+      "openai": true,
+      "ports": true,
+      "prewarm": true,
+      "projectId": true,
+      "proxy": true,
+      "updatedAt": true,
+      "urls": true,
+      "userId": true
+    },
+    "known_upstream_field_presence": {
+      "autoStart": true,
+      "cloudspaceId": true,
+      "clusterId": true,
+      "command": true,
+      "instanceType": true,
+      "port": true,
+      "studioJobId": true,
+      "terminalSessionId": true,
+      "type": true
+    },
+    "upstream_object_shapes": {
+      "job": {
+        "json_type": "OBJECT",
+        "key_count": 5,
+        "nondefault_leaf_count": 2
+      },
+      "managed": {
+        "json_type": "OBJECT",
+        "key_count": 1,
+        "nondefault_leaf_count": 0
+      },
+      "openai": {
+        "json_type": "OBJECT",
+        "key_count": 2,
+        "nondefault_leaf_count": 0
+      },
+      "prewarm": {
+        "json_type": "OBJECT",
+        "key_count": 6,
+        "nondefault_leaf_count": 0
+      }
+    },
+    "warning": "NON_NULL_OBJECT_DOES_NOT_PROVE_ACTIVE_UPSTREAM"
+  },
+  "finished_at_utc": "2026-09-20T09:13:31.146083+00:00",
+  "sha": "de13181162bd0b822d7766570eedf0df45e25977",
+  "run_id": "35501693728",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35501693728"
+}

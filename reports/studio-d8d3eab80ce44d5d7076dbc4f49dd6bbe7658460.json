@@ -1,0 +1,74 @@
+{
+  "kind": "raw_list_detail_url_parity",
+  "status": "PASS",
+  "started_at_utc": "2026-09-20T10:34:09.823135+00:00",
+  "network": {
+    "get": 9,
+    "writes": 0,
+    "blocked": 0
+  },
+  "rounds": [
+    {
+      "order": "list_then_detail",
+      "started_at_utc": "2026-09-20T10:34:10.547258+00:00",
+      "finished_at_utc": "2026-09-20T10:34:10.638277+00:00",
+      "list": {
+        "identity_verified": true,
+        "urls_key_present": true,
+        "urls_is_null": false,
+        "urls_count": 1,
+        "urls_exact_public_address": true,
+        "urls_empty": false
+      },
+      "detail": {
+        "identity_verified": true,
+        "urls_key_present": true,
+        "urls_is_null": false,
+        "urls_count": 0,
+        "urls_exact_public_address": false,
+        "urls_empty": true
+      },
+      "same_cloudspace_object": true,
+      "same_ports": true,
+      "same_created_at": true,
+      "same_updated_at": true,
+      "same_name": true
+    },
+    {
+      "order": "detail_then_list",
+      "started_at_utc": "2026-09-20T10:34:10.638303+00:00",
+      "finished_at_utc": "2026-09-20T10:34:10.732632+00:00",
+      "list": {
+        "identity_verified": true,
+        "urls_key_present": true,
+        "urls_is_null": false,
+        "urls_count": 1,
+        "urls_exact_public_address": true,
+        "urls_empty": false
+      },
+      "detail": {
+        "identity_verified": true,
+        "urls_key_present": true,
+        "urls_is_null": false,
+        "urls_count": 0,
+        "urls_exact_public_address": false,
+        "urls_empty": true
+      },
+      "same_cloudspace_object": true,
+      "same_ports": true,
+      "same_created_at": true,
+      "same_updated_at": true,
+      "same_name": true
+    }
+  ],
+  "public_requests": 0,
+  "studio_commands": 0,
+  "studio_constructed_without_setup": true,
+  "list_stable_across_rounds": true,
+  "detail_stable_across_rounds": true,
+  "finished_at_utc": "2026-09-20T10:34:10.732697+00:00",
+  "sha": "d8d3eab80ce44d5d7076dbc4f49dd6bbe7658460",
+  "run_id": "35505419060",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35505419060"
+}

@@ -1,0 +1,51 @@
+name: G0 credential-free SDK transport fixture
+on:
+  push:
+    branches: [audit/g0-sdk-transport-20260920]
+    paths: [tools/g0_read_policy.py, tools/g0_sdk_fixture.py, .github/workflows/g0-sdk-transport.yml]
+permissions:
+  contents: read
+jobs:
+  fixture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install pinned SDK without credentials
+        run: |
+          python3 -m venv /tmp/g0-sdk
+          /tmp/g0-sdk/bin/pip install --disable-pip-version-check 'git+https://github.com/Lightning-AI/sdk.git@a7709959692a4abdcd152f381585eb1de826923b#subdirectory=python'
+      - name: Run actual generated SDK against fake pool only
+        env:
+          DO_NOT_TRACK: '1'
+          LIGHTNING_DISABLE_VERSION_CHECK: '1'
+          LIGHTNING_DEBUG: '0'
+        run: timeout 90 /tmp/g0-sdk/bin/python tools/g0_sdk_fixture.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: g0-sdk-fixture-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+          retention-days: 30
+  evidence:
+    needs: fixture
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: g0-sdk-fixture-${{ github.sha }}
+          path: out
+      - name: Publish synthetic evidence only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

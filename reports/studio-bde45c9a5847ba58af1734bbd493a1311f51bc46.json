@@ -1,0 +1,114 @@
+{
+  "schema": 3,
+  "status": "PASS",
+  "kind": "single_approved_restart",
+  "sdk_source_sha": "a7709959692a4abdcd152f381585eb1de826923b",
+  "started_at_utc": "2026-09-20T00:46:21.124741+00:00",
+  "checks": [
+    {
+      "name": "target_and_current_cpu",
+      "status": "PASS",
+      "detail": "Exact existing Studio; active/configured CPU agree"
+    },
+    {
+      "name": "write_routes_verified",
+      "status": "PASS",
+      "detail": "Routes extracted from pinned official SDK; only one stop and one start allowed"
+    },
+    {
+      "name": "preflight_assets",
+      "status": "PASS",
+      "detail": "Every asset matches checksum-pinned deployed release"
+    },
+    {
+      "name": "stopped_observed",
+      "status": "PASS",
+      "detail": "Two consecutive API observations, five seconds apart; no preview requests while stopped"
+    },
+    {
+      "name": "running_restored",
+      "status": "PASS",
+      "detail": "Running and top-up restore finished on same CPU configuration"
+    },
+    {
+      "name": "settings_unchanged",
+      "status": "PASS",
+      "detail": "Compute config, sleep flag/timeout and 8060 endpoint settings match preflight"
+    },
+    {
+      "name": "public_service_recovered",
+      "status": "PASS",
+      "detail": "All release assets and WASM MIME match without SSH, deployment or manual service start"
+    },
+    {
+      "name": "single_cycle_boundary",
+      "status": "PASS",
+      "detail": "Exactly one stop and one start; no other write accepted"
+    }
+  ],
+  "ssh": "NOT_USED",
+  "keepalive": "DISABLED",
+  "auto_start_test": "NOT_RUN",
+  "natural_idle_sleep_test": "NOT_RUN",
+  "service_repair": "NOT_RUN",
+  "browser": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "real exported Web game advances frames",
+        "pass": true
+      },
+      {
+        "name": "keyboard jump changes real character elevation",
+        "pass": true
+      },
+      {
+        "name": "keyboard forward changes real character position",
+        "pass": true
+      },
+      {
+        "name": "restart resets gameplay position",
+        "pass": true
+      },
+      {
+        "name": "no JavaScript or GDScript errors",
+        "pass": true
+      }
+    ],
+    "renderer": "Chromium SwiftShader; not real-device acceptance"
+  },
+  "before": {
+    "machine": "CPU",
+    "compute_name": "cpu-4",
+    "spot": false,
+    "auto_sleep_enabled": true,
+    "idle_timeout_seconds": 0,
+    "port_8060": {
+      "auto_start": false,
+      "type": "ENDPOINT_PLUGIN_PORT",
+      "port": 8060
+    }
+  },
+  "preflight_asset_count": 13,
+  "preflight": "PASS",
+  "network": {
+    "get_requests": 62,
+    "blocked_requests": 0,
+    "stop_requests_sent": 1,
+    "start_requests_sent": 1
+  },
+  "last_stage": "wait_public_recovery",
+  "stop_requested_at_utc": "2026-09-20T00:46:25.560585+00:00",
+  "stopped_at_utc": "2026-09-20T00:46:51.367905+00:00",
+  "start_requested_at_utc": "2026-09-20T00:46:51.367923+00:00",
+  "running_at_utc": "2026-09-20T00:48:03.627036+00:00",
+  "instance_identity_changed": true,
+  "recovered_asset_count": 13,
+  "public_recovered_at_utc": "2026-09-20T00:48:07.096233+00:00",
+  "lifecycle_status": "PASS",
+  "finished_at_utc": "2026-09-20T00:48:07.096317+00:00",
+  "sha": "bde45c9a5847ba58af1734bbd493a1311f51bc46",
+  "run_id": "35479570422",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35479570422"
+}

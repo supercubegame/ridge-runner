@@ -1,0 +1,1 @@
+{"run_id": "35490404519", "sha": "a73273dd4e2357e635626b869d34a1b39ec90324", "approved": "12:55 one fresh Basic PLUGIN_PORT 8061 endpoint, only type changed, abort if Basic unsupported, omit instance_type, auto_start false, diagnostics max180s, delete only new endpoint; no machine switch or Studio start/stop", "at": "2026-09-20T04:57:19.241021+00:00"}

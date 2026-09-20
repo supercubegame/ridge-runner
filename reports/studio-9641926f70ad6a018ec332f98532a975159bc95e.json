@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "kind": "official_add_port_v6_parity",
+  "checks": [
+    "no_platform_or_github_credentials_in_test",
+    "v6_source_matches_executed_blob",
+    "one_actual_v6_create_body_expression",
+    "official_method_returns_create_response",
+    "official_method_exactly_one_mock_create_no_extra_registration",
+    "same_project_scoping",
+    "official_add_port_omits_auth",
+    "v6_adds_only_fresh_basic_auth_values",
+    "all_other_serialized_fields_exactly_equal",
+    "same_upstream_port_type_autostart_omissions",
+    "same_top_level_port_and_name",
+    "official_default_autostart_is_identical_false",
+    "zero_network_attempts"
+  ],
+  "socket_attempts": 0,
+  "platform_requests": 0,
+  "studio_constructed": false,
+  "sdk_api_initialized": false,
+  "difference_paths": [
+    "auth"
+  ],
+  "official_top_level_keys": [
+    "cloudspace",
+    "name",
+    "ports"
+  ],
+  "v6_top_level_keys": [
+    "auth",
+    "cloudspace",
+    "name",
+    "ports"
+  ],
+  "official_method_source_sha256": "47a04aa263eb2d4b66388f9ae84cb38450636e332ed1963f4b5410677520a129",
+  "v6_source_git_blob": "5f94da3abf17b9857aec9e6f1963f33114b9dfde",
+  "limitations": [
+    "Mock captures real SDK method and real serializer, not a platform endpoint creation.",
+    "Does not establish Basic authentication causes 502.",
+    "Does not establish omitted auth means public access on the platform.",
+    "No inference about web UI registration implementation or gateway routing target."
+  ],
+  "observed_at_utc": "2026-09-20T09:52:59.270812+00:00",
+  "sha": "9641926f70ad6a018ec332f98532a975159bc95e",
+  "run_id": "35503505170",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35503505170"
+}

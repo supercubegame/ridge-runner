@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "kind": "local_fixture_readiness_candidate",
+  "tests_run": 10,
+  "failures": [],
+  "real_studio_requests": 0,
+  "auto_start_test": "NOT_RUN",
+  "platform_command_lifecycle": "UNVERIFIED",
+  "sha": "be5acffb708ad94907701b626af30d417d2d830c",
+  "run_id": "35483070497",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35483070497"
+}

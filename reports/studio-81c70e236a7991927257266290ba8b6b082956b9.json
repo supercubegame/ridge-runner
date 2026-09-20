@@ -1,0 +1,39 @@
+{
+  "status": "FAIL",
+  "kind": "approved_8061_runtime_trial",
+  "started_at_utc": "2026-09-20T03:19:06.059351+00:00",
+  "checks": [
+    {
+      "name": "preflight_original_cpu_and_game",
+      "pass": true
+    }
+  ],
+  "auto_wake": "NOT_RUN",
+  "studio_start_stop": "NOT_RUN",
+  "ssh": "NOT_USED",
+  "cleanup": {
+    "endpoint_absent": false,
+    "original_endpoint_unchanged": true,
+    "machine_sleep_config_unchanged": true,
+    "original_game_version_ok": true
+  },
+  "service_lifetime_seconds": 100,
+  "network": {
+    "get": 18,
+    "writes": {
+      "create": 1,
+      "command": 0,
+      "delete": 1
+    },
+    "blocked": 0
+  },
+  "last_stage": "cleanup_new_endpoint",
+  "created_endpoint_id": "endp_01m2yd678z0rpgnxp70nstknhq",
+  "error_type": "RuntimeError",
+  "error_code": "URL_COUNT",
+  "finished_at_utc": "2026-09-20T03:19:09.541100+00:00",
+  "sha": "81c70e236a7991927257266290ba8b6b082956b9",
+  "run_id": "35486233296",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35486233296"
+}

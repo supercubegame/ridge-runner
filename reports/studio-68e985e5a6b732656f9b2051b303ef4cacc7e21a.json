@@ -1,0 +1,433 @@
+{
+  "kind": "g0_account_read_v1",
+  "status": "READS_COMPLETED",
+  "qualification": "NOT_PASSED",
+  "started_at_utc": "2026-09-20T13:56:19.864458+00:00",
+  "public_url_requests": 0,
+  "platform_writes": 0,
+  "keepalive_calls": 0,
+  "free_parallel_eligibility": "UNKNOWN",
+  "project_identity_verified": true,
+  "organization_resolved": true,
+  "studio_identity_verified": true,
+  "cloud_account": {
+    "id": "lightning-baremetal",
+    "cluster_type": "CLUSTER_TYPE_GLOBAL",
+    "matched_entries": 2,
+    "provider": "MACHINE"
+  },
+  "cpu_catalog": {
+    "candidate_count": 7,
+    "rows": [
+      {
+        "slug": "cpu-2",
+        "slugMultiCloud": "cpu-2",
+        "instanceId": "cpu-2",
+        "provider": "MACHINE",
+        "quotaCheckedAt": null,
+        "enabled": true,
+        "outOfCapacity": false,
+        "isTierRestricted": false,
+        "nonOndemand": false,
+        "nonSpot": false,
+        "prices": {
+          "cost": {
+            "state": "PRESENT",
+            "value": 0.29
+          },
+          "originalCost": {
+            "state": "MISSING",
+            "value": null
+          },
+          "spotPrice": {
+            "state": "PRESENT",
+            "value": 0.2465
+          }
+        },
+        "resources": {
+          "cpu": "2",
+          "gpu": "0",
+          "memory": null
+        },
+        "exact_cpu4_slug": false,
+        "free_eligibility": "UNKNOWN"
+      },
+      {
+        "slug": "cpu-4",
+        "slugMultiCloud": "cpu-4",
+        "instanceId": "cpu-4",
+        "provider": "MACHINE",
+        "quotaCheckedAt": null,
+        "enabled": true,
+        "outOfCapacity": false,
+        "isTierRestricted": false,
+        "nonOndemand": false,
+        "nonSpot": false,
+        "prices": {
+          "cost": {
+            "state": "PRESENT",
+            "value": 0.33
+          },
+          "originalCost": {
+            "state": "MISSING",
+            "value": null
+          },
+          "spotPrice": {
+            "state": "PRESENT",
+            "value": 0.22
+          }
+        },
+        "resources": {
+          "cpu": "4",
+          "gpu": "0",
+          "memory": null
+        },
+        "exact_cpu4_slug": true,
+        "free_eligibility": "UNKNOWN"
+      },
+      {
+        "slug": "cpu-8",
+        "slugMultiCloud": "cpu-8",
+        "instanceId": "cpu-8",
+        "provider": "MACHINE",
+        "quotaCheckedAt": null,
+        "enabled": true,
+        "outOfCapacity": false,
+        "isTierRestricted": false,
+        "nonOndemand": false,
+        "nonSpot": false,
+        "prices": {
+          "cost": {
+            "state": "PRESENT",
+            "value": 0.51
+          },
+          "originalCost": {
+            "state": "MISSING",
+            "value": null
+          },
+          "spotPrice": {
+            "state": "PRESENT",
+            "value": 0.33
+          }
+        },
+        "resources": {
+          "cpu": "8",
+          "gpu": "0",
+          "memory": null
+        },
+        "exact_cpu4_slug": false,
+        "free_eligibility": "UNKNOWN"
+      },
+      {
+        "slug": "cpu-16",
+        "slugMultiCloud": "cpu-16",
+        "instanceId": "cpu-16",
+        "provider": "MACHINE",
+        "quotaCheckedAt": null,
+        "enabled": true,
+        "outOfCapacity": false,
+        "isTierRestricted": false,
+        "nonOndemand": false,
+        "nonSpot": false,
+        "prices": {
+          "cost": {
+            "state": "PRESENT",
+            "value": 0.99
+          },
+          "originalCost": {
+            "state": "MISSING",
+            "value": null
+          },
+          "spotPrice": {
+            "state": "PRESENT",
+            "value": 0.54
+          }
+        },
+        "resources": {
+          "cpu": "16",
+          "gpu": "0",
+          "memory": null
+        },
+        "exact_cpu4_slug": false,
+        "free_eligibility": "UNKNOWN"
+      },
+      {
+        "slug": "data-large",
+        "slugMultiCloud": "data-prep-mid",
+        "instanceId": "data-prep-mid",
+        "provider": "MACHINE",
+        "quotaCheckedAt": null,
+        "enabled": true,
+        "outOfCapacity": false,
+        "isTierRestricted": false,
+        "nonOndemand": false,
+        "nonSpot": false,
+        "prices": {
+          "cost": {
+            "state": "PRESENT",
+            "value": 1.98
+          },
+          "originalCost": {
+            "state": "MISSING",
+            "value": null
+          },
+          "spotPrice": {
+            "state": "PRESENT",
+            "value": 1.683
+          }
+        },
+        "resources": {
+          "cpu": "32",
+          "gpu": "0",
+          "memory": null
+        },
+        "exact_cpu4_slug": false,
+        "free_eligibility": "UNKNOWN"
+      },
+      {
+        "slug": "data-max",
+        "slugMultiCloud": "data-prep-max-large",
+        "instanceId": "data-prep-max-large",
+        "provider": "MACHINE",
+        "quotaCheckedAt": null,
+        "enabled": true,
+        "outOfCapacity": false,
+        "isTierRestricted": false,
+        "nonOndemand": false,
+        "nonSpot": false,
+        "prices": {
+          "cost": {
+            "state": "PRESENT",
+            "value": 3.96
+          },
+          "originalCost": {
+            "state": "MISSING",
+            "value": null
+          },
+          "spotPrice": {
+            "state": "PRESENT",
+            "value": 3.366
+          }
+        },
+        "resources": {
+          "cpu": "64",
+          "gpu": "0",
+          "memory": null
+        },
+        "exact_cpu4_slug": false,
+        "free_eligibility": "UNKNOWN"
+      },
+      {
+        "slug": "data-ultra",
+        "slugMultiCloud": "data-prep-ultra-extra-large",
+        "instanceId": "data-prep-ultra-extra-large",
+        "provider": "MACHINE",
+        "quotaCheckedAt": null,
+        "enabled": true,
+        "outOfCapacity": false,
+        "isTierRestricted": false,
+        "nonOndemand": false,
+        "nonSpot": false,
+        "prices": {
+          "cost": {
+            "state": "PRESENT",
+            "value": 5.94
+          },
+          "originalCost": {
+            "state": "MISSING",
+            "value": null
+          },
+          "spotPrice": {
+            "state": "PRESENT",
+            "value": 5.049
+          }
+        },
+        "resources": {
+          "cpu": "96",
+          "gpu": "0",
+          "memory": null
+        },
+        "exact_cpu4_slug": false,
+        "free_eligibility": "UNKNOWN"
+      }
+    ],
+    "output_truncated": false,
+    "catalog_complete": "UNKNOWN"
+  },
+  "template_catalogs": {
+    "managed": {
+      "returned_count": 8,
+      "output_truncated": false,
+      "rows": [
+        {
+          "id": "cet_01jwy93dw1g29nd9ta86nfxy4h",
+          "managedId": "0",
+          "disabled": false,
+          "defaultMachine": null,
+          "allowedMachines": [],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        },
+        {
+          "id": "cet_01jz17475rka18x4swrebtjxev",
+          "managedId": "01",
+          "disabled": false,
+          "defaultMachine": null,
+          "allowedMachines": [],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        },
+        {
+          "id": "cet_01kcq1y0hhfqxt8t43m047t2he",
+          "managedId": "01-a",
+          "disabled": false,
+          "defaultMachine": null,
+          "allowedMachines": [
+            "1 x T4",
+            "4 x T4",
+            "1 x L4",
+            "4 x L4",
+            "8 x L4",
+            "8 x A100",
+            "1 x L40S",
+            "4 x L40S",
+            "8 x L40S",
+            "8 x H100",
+            "8 x H200"
+          ],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        },
+        {
+          "id": "cet_01kg551a0trrq73nrjsvk3nkjm",
+          "managedId": "01-b",
+          "disabled": false,
+          "defaultMachine": null,
+          "allowedMachines": [],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        },
+        {
+          "id": "cet_01kpr6grp2zcr3qtyyhkw2rtb4",
+          "managedId": "01-c",
+          "disabled": false,
+          "defaultMachine": null,
+          "allowedMachines": [],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        },
+        {
+          "id": "cet_01jwy93dw1g29nd9ta8afe9qdm",
+          "managedId": "1",
+          "disabled": false,
+          "defaultMachine": "32 x Data prep",
+          "allowedMachines": [
+            "32 x Data prep",
+            "64 x Data prep",
+            "96 x Data prep"
+          ],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        },
+        {
+          "id": "cet_01jxd3n5ygs9fdtac176wyd6nc",
+          "managedId": "2",
+          "disabled": false,
+          "defaultMachine": null,
+          "allowedMachines": [],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        },
+        {
+          "id": "cet_01jxd3n5ygs9fdtac17728vqrh",
+          "managedId": "3",
+          "disabled": false,
+          "defaultMachine": null,
+          "allowedMachines": [],
+          "environmentType": "CLOUD_SPACE_ENVIRONMENT_TYPE_UNSPECIFIED",
+          "machineImageVersion": null,
+          "setup_script_present": false,
+          "setup_script_sha256": null
+        }
+      ],
+      "cursor_present": false,
+      "has_more": null,
+      "catalog_complete": "UNKNOWN",
+      "pages_read": 1
+    },
+    "organization": {
+      "returned_count": 0,
+      "output_truncated": false,
+      "rows": [],
+      "cursor_present": false,
+      "has_more": null,
+      "catalog_complete": "UNKNOWN",
+      "pages_read": 1
+    }
+  },
+  "network": {
+    "get_attempts": 7,
+    "blocked": 0,
+    "max_attempts": 12
+  },
+  "ended_at_utc": "2026-09-20T13:56:20.854053+00:00",
+  "limitations": [
+    "Point-in-time catalog, not allocation guarantee",
+    "No billing balance or paid plan queried",
+    "Missing values never mean allowed or free",
+    "First template pages only; completeness unknown",
+    "No template script execution or resource creation",
+    "GET effects on idle detection not proven absent"
+  ],
+  "gate": {
+    "status": "PASS",
+    "checks": [
+      "generated_project",
+      "generated_studio",
+      "generated_non_global_accelerators",
+      "all_mock_requests_guarded",
+      "scope_reject_0",
+      "scope_reject_1",
+      "scope_reject_2",
+      "scope_reject_3",
+      "scope_reject_4",
+      "scope_reject_5",
+      "scope_reject_6",
+      "scope_reject_7",
+      "scope_reject_8",
+      "budget",
+      "deadline",
+      "missing_cost",
+      "zero_cost_not_missing",
+      "bool_not_price",
+      "string_not_price",
+      "exact_cpu4",
+      "free_unknown",
+      "missing_flags_unknown",
+      "drop_unlisted_machine_data",
+      "drop_script_and_description",
+      "template_completeness_unknown",
+      "template_script_presence"
+    ],
+    "test_count": 26,
+    "platform_requests": 0
+  },
+  "sha": "68e985e5a6b732656f9b2051b303ef4cacc7e21a",
+  "run_id": "35514936041",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35514936041"
+}

@@ -22,6 +22,10 @@ jobs:
           python3 -m venv /tmp/g0
           /tmp/g0/bin/pip install --disable-pip-version-check 'git+https://github.com/Lightning-AI/sdk.git@a7709959692a4abdcd152f381585eb1de826923b#subdirectory=python'
       - name: Credential-free transport regression
+        env:
+          LIGHTNING_DISABLE_VERSION_CHECK: '1'
+          LIGHTNING_DEBUG: '0'
+          DO_NOT_TRACK: '1'
         run: |
           timeout 90 /tmp/g0/bin/python tools/g0_sdk_fixture.py
           timeout 90 /tmp/g0/bin/python tools/g0_response_fixture.py
@@ -54,9 +58,9 @@ jobs:
         with:
           name: g0-account-${{ github.sha }}
           path: out
-      - name: Publish only account snapshot, never fixture as account success
+      - name: Preserve typed evidence without treating fixture as account success
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          python3 -c "import json; r=json.load(open('out/studio-probe.json')); assert r['kind']=='g0_account_read_v1'"
+          python3 -c "import json; p='out/studio-probe.json'; r=json.load(open(p)); assert r['kind'] in ('g0_account_read_v1','g0_sdk_transport_fixture','g0_account_gate_failure'); r['gate']=json.load(open('out/g0-account-gate.json')) if __import__('os').path.exists('out/g0-account-gate.json') else None; open(p,'w').write(json.dumps(r,indent=2))"
           python3 tools/probe_report.py

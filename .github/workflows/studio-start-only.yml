@@ -1,0 +1,103 @@
+name: One approved Studio start only
+on:
+  push:
+    branches: [audit/studio-start-only-20260920]
+    paths: [tools/start_only.py, tools/test_start_only.py, .github/workflows/studio-start-only.yml]
+permissions:
+  contents: read
+concurrency:
+  group: studio-start-only-authorization-20260920-0914
+  cancel-in-progress: false
+jobs:
+  gate:
+    if: github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/audit/studio-start-only-20260920' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: |
+          python3 tools/test_restart_once.py
+          python3 tools/test_start_only.py
+  lifecycle:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Prepare dependencies without Lightning credentials
+        run: |
+          python3 -m venv /tmp/lightning-restart-venv
+          /tmp/lightning-restart-venv/bin/pip install --disable-pip-version-check 'git+https://github.com/Lightning-AI/sdk.git@a7709959692a4abdcd152f381585eb1de826923b#subdirectory=python'
+          npm install --no-save --package-lock=false playwright@1.51.1
+          npx playwright install --with-deps chromium
+          python3 tools/start_only.py --prepare
+      - name: Read-only preflight
+        id: preflight
+        env:
+          LIGHTNING_USER_ID: ${{ secrets.LIGHTNING_USER_ID }}
+          LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_API_KEY }}
+          DO_NOT_TRACK: '1'
+        run: timeout 240 /tmp/lightning-restart-venv/bin/python tools/start_only.py --preflight
+      - name: Atomically consume one-use authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/start_only.py --claim
+      - name: One same-CPU start only, never stop or alter endpoint
+        id: cycle
+        continue-on-error: true
+        env:
+          LIGHTNING_USER_ID: ${{ secrets.LIGHTNING_USER_ID }}
+          LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_API_KEY }}
+          DO_NOT_TRACK: '1'
+        run: timeout 1500 /tmp/lightning-restart-venv/bin/python tools/start_only.py --execute
+      - name: Test real recovered public game without platform credentials
+        if: steps.cycle.outcome == 'success'
+        id: browser
+        continue-on-error: true
+        run: timeout 180 node tools/restart_browser.cjs
+      - name: Combine lifecycle and browser evidence
+        if: always() && steps.cycle.outcome != 'skipped'
+        continue-on-error: true
+        run: python3 tools/start_only.py --merge-browser
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: start-only-${{ github.sha }}
+          path: out/studio-probe.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Require complete end-to-end success
+        if: always()
+        env:
+          CYCLE: ${{ steps.cycle.outcome }}
+          BROWSER: ${{ steps.browser.outcome }}
+        run: |
+          test "$CYCLE" = success
+          test "$BROWSER" = success
+          python3 -c "import json; assert json.load(open('out/studio-probe.json'))['status']=='PASS'"
+  evidence:
+    needs: [gate, lifecycle]
+    if: always() && github.repository == 'supercubegame/ridge-runner' && github.ref == 'refs/heads/audit/studio-start-only-20260920'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: start-only-${{ github.sha }}
+          path: out
+      - name: Publish and read back redacted evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/probe_report.py

@@ -11,6 +11,15 @@ def shape(value):
 def summarize(raw,root_map,up_map):
  result=base(raw,root_map,up_map)
  result['upstream_object_shapes']={k:shape(raw.get(k)) for k in ('job','managed','openai','prewarm')}
+ job=raw.get('job') or {};up=raw['cloudspace']
+ result['job_fields']={
+  'job_id_present':bool(job.get('jobId')),
+  'job_id_matches_cloudspace_job':bool(job.get('jobId')) and job.get('jobId')==up.get('studioJobId'),
+  'port_class':'ABSENT_OR_EMPTY' if not job.get('port') else 'ZERO_STRING' if job['port']=='0' else 'SAME_AS_8060' if job['port']=='8060' else 'OTHER',
+  'idle_seconds_class':'ABSENT_OR_EMPTY' if not job.get('idleShutdownSeconds') else 'ZERO_STRING' if job['idleShutdownSeconds']=='0' else 'OTHER',
+  'auto_start':b.tri(job.get('autoStart')),
+  'idle_shutdown':b.tri(job.get('idleShutdown')),
+ }
  result['warning']='NON_NULL_OBJECT_DOES_NOT_PROVE_ACTIVE_UPSTREAM'
  return result
 b.summarize=summarize
@@ -21,5 +30,6 @@ if __name__=='__main__':
   assert populated_leaves({'id':'','ready':False,'count':0,'nested':{'a':None},'items':[]})==0
   assert populated_leaves({'id':'sentinel-SECRET','nested':{'a':True}})==2
   assert 'sentinel-SECRET' not in json.dumps(shape({'id':'sentinel-SECRET'}))
+  assert populated_leaves({'port':'0','idleShutdownSeconds':'0'})==2
   print('PASS default-object and nondefault-value redaction fixtures')
  else:sys.exit(b.main())

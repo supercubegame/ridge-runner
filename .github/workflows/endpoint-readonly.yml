@@ -2,7 +2,7 @@ name: Read-only endpoint command and job inspection
 on:
   push:
     branches: [audit/endpoint-readonly-20260920]
-    paths: [tools/endpoint_readonly.py, .github/workflows/endpoint-readonly.yml]
+    paths: [tools/endpoint_readonly.py, tools/endpoint_job_readonly.py, .github/workflows/endpoint-readonly.yml]
 permissions:
   contents: read
 jobs:
@@ -16,6 +16,7 @@ jobs:
       - run: |
           python3 tools/lightning_readonly.py --self-test
           python3 tools/endpoint_readonly.py --self-test
+          python3 tools/endpoint_job_readonly.py --self-test
   probe:
     needs: gate
     runs-on: ubuntu-24.04
@@ -33,7 +34,7 @@ jobs:
           LIGHTNING_USER_ID: ${{ secrets.LIGHTNING_USER_ID }}
           LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_API_KEY }}
           DO_NOT_TRACK: '1'
-        run: timeout 120 /tmp/endpoint-readonly/bin/python tools/endpoint_readonly.py
+        run: timeout 120 /tmp/endpoint-readonly/bin/python tools/endpoint_job_readonly.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

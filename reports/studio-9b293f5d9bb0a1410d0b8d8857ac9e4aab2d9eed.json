@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "kind": "readonly_original_routing_comparison",
+  "network": {
+    "get": 8,
+    "blocked": 0,
+    "writes": 0
+  },
+  "commands": "NOT_RUN",
+  "public_http": "NOT_REQUESTED",
+  "temporary_comparison_source": "prior_create_payload_and_redacted_readback_not_live_deleted_object",
+  "original_8060": {
+    "type": "ENDPOINT_PLUGIN_PORT",
+    "port": "8060",
+    "auto_start": false,
+    "command_empty": true,
+    "instance_type": "UNSET",
+    "cluster_id_present": false,
+    "cluster_matches_studio": false,
+    "studio_job_id_present": true,
+    "terminal_session_id_present": false,
+    "auth_present": true,
+    "auth_enabled": false,
+    "url_count": 0
+  },
+  "studio_cluster_present": true,
+  "temporary8061_absent": true,
+  "studio_status": "Running",
+  "prior_temporary_confirmed": {
+    "type": "ENDPOINT_PLUGIN_API",
+    "port": "8061",
+    "auto_start": false,
+    "command_empty": true,
+    "instance_type": "cpu-4",
+    "auth": "fresh_basic_enabled",
+    "url_count": 0
+  },
+  "prior_temporary_unsaved_fields": [
+    "cluster_id",
+    "studio_job_id",
+    "terminal_session_id"
+  ],
+  "prior_temporary_request_omitted_fields": [
+    "cluster_id",
+    "studio_job_id",
+    "terminal_session_id"
+  ],
+  "observed_at_utc": "2026-09-20T04:45:32.514953+00:00",
+  "sha": "9b293f5d9bb0a1410d0b8d8857ac9e4aab2d9eed",
+  "run_id": "35489920523",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35489920523"
+}

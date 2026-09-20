@@ -1,0 +1,258 @@
+{
+  "status": "FAIL",
+  "kind": "approved_runtime_v5_plugin_port",
+  "request_instance_type": "OMITTED",
+  "started_at_utc": "2026-09-20T04:57:20.353534+00:00",
+  "checks": [
+    "preflight_original_cpu_game_no_endpoint_conflict",
+    "new_identity_basic_auth_autostart_false",
+    "missing_and_wrong_auth_denied_http_status",
+    "bounded_service_closed"
+  ],
+  "cleanup": {
+    "service_finished": true,
+    "8061_no_listeners_after": true,
+    "delete_returned": true,
+    "endpoint_list_absent": true,
+    "single_get": {
+      "http_status": 500,
+      "not_found_marker": true
+    },
+    "original_endpoint_unchanged": true,
+    "machine_sleep_unchanged": true,
+    "original_game_version_ok": true
+  },
+  "service_lifetime_seconds": 120,
+  "public_attempts": [
+    {
+      "label": "missing",
+      "at_utc": "2026-09-20T04:57:22.256304+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.132
+    },
+    {
+      "label": "wrong",
+      "at_utc": "2026-09-20T04:57:22.388238+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.13
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:22.518428+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.142
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:25.661114+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.135
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:28.796299+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.138
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:31.934964+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.121
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:35.056895+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.124
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:38.181407+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.24
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:41.421886+00:00",
+      "http_status": 404,
+      "exact_marker": false,
+      "body_bytes_sampled": 19,
+      "elapsed_seconds": 0.142
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:44.570656+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.589
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:49.159867+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.465
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:53.625670+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.631
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:57:58.256889+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.554
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:58:02.811321+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.245
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:58:07.056984+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.583
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:58:11.640291+00:00",
+      "error_type": "TimeoutError",
+      "elapsed_seconds": 10.238
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:58:24.879274+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.629
+    },
+    {
+      "label": "valid",
+      "at_utc": "2026-09-20T04:58:29.508844+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.243
+    },
+    {
+      "label": "missing_final",
+      "at_utc": "2026-09-20T04:58:33.752028+00:00",
+      "http_status": 401,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 0.121
+    },
+    {
+      "label": "wrong_final",
+      "at_utc": "2026-09-20T04:58:33.873747+00:00",
+      "http_status": 401,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 0.12
+    },
+    {
+      "label": "root_valid",
+      "at_utc": "2026-09-20T04:58:33.994307+00:00",
+      "http_status": 502,
+      "exact_marker": false,
+      "body_bytes_sampled": 0,
+      "elapsed_seconds": 1.511
+    }
+  ],
+  "url_source": "user_API_Builder_screenshots_12:01",
+  "endpoint_url": "https://8061-01m2watakghqmc1fnymkg5czax.cloudspaces.litng.ai",
+  "studio_start_stop": "NOT_RUN",
+  "auto_wake": "NOT_RUN",
+  "last_stage": "cleanup",
+  "network": {
+    "get": 54,
+    "writes": {
+      "create": 1,
+      "command": 1,
+      "delete": 1
+    },
+    "blocked": 0
+  },
+  "created_endpoint_id": "endp_01m2yjt3nrv8z64ngvkr8pebaj",
+  "project_id": "01hrhh1avmp22zbv37depwjkp8",
+  "routing_readback": {
+    "instance_type": "UNSET",
+    "cluster_present": false,
+    "cluster_matches_studio": false,
+    "studio_job_present": true,
+    "studio_job_matches_original": false,
+    "terminal_session_present": false
+  },
+  "api_url_count": 0,
+  "authenticated_marker_verified": false,
+  "missing_wrong_denied_observed": true,
+  "trial_status": "FAIL",
+  "service": {
+    "exit_code": 0,
+    "after": {
+      "tcp4": 0,
+      "tcp6": 0
+    },
+    "before": {
+      "tcp4": 0,
+      "tcp6": 0
+    },
+    "bound": true,
+    "diagnostics": {
+      "finished_at_utc": "2026-09-20T04:59:23.229579+00:00",
+      "listening_at_utc": "2026-09-20T04:57:23.214434+00:00",
+      "local_checked_at_utc": "2026-09-20T04:57:23.238006+00:00",
+      "local_http_ok": true,
+      "local_http_status": 200,
+      "request_counts": {
+        "local_selfcheck": 1,
+        "other": 0,
+        "probe": 0,
+        "root": 0
+      },
+      "started_at_utc": "2026-09-20T04:57:23.210849+00:00"
+    },
+    "elapsed_seconds": 120.019,
+    "lifetime_seconds": 120,
+    "status": "EXPIRED_CLOSED"
+  },
+  "error_type": "RuntimeError",
+  "error_code": "INCOMPLETE",
+  "finished_at_utc": "2026-09-20T04:59:26.741986+00:00",
+  "sha": "a73273dd4e2357e635626b869d34a1b39ec90324",
+  "run_id": "35490404519",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35490404519"
+}

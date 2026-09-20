@@ -1,0 +1,53 @@
+{
+  "kind": "approved_network_capability_preflight",
+  "status": "PASS",
+  "started_at_utc": "2026-09-20T09:19:37.505037+00:00",
+  "remote_alarm_seconds": 10,
+  "approved_max_seconds": 15,
+  "capture": "NOT_RUN",
+  "raw_sockets": "NOT_OPENED",
+  "endpoint_changes": "NOT_RUN",
+  "public_requests": "NOT_RUN",
+  "studio_lifecycle": "NOT_RUN",
+  "preflight": {
+    "running": true,
+    "requested_present": false
+  },
+  "network": {
+    "get": 8,
+    "writes": {
+      "create": 0,
+      "command": 1,
+      "delete": 0
+    },
+    "blocked": 0
+  },
+  "last_stage": "wait_exit",
+  "remote_exit_code": 0,
+  "capability_readback": {
+    "capabilities": {
+      "CAP_NET_ADMIN": {
+        "bounding": true,
+        "effective": false
+      },
+      "CAP_NET_RAW": {
+        "bounding": true,
+        "effective": false
+      }
+    },
+    "elapsed_seconds": 0.002998,
+    "euid_class": "NON_ROOT",
+    "tools": {
+      "ip": true,
+      "ss": true,
+      "tcpdump": false,
+      "timeout": true
+    },
+    "uid_class": "NON_ROOT"
+  },
+  "finished_at_utc": "2026-09-20T09:19:41.736234+00:00",
+  "sha": "8bd74a6c946595a7d9d1e8052d8fb897d1e3f120",
+  "run_id": "35501973780",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35501973780"
+}

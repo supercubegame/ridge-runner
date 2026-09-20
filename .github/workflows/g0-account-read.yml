@@ -2,7 +2,7 @@ name: G0 bounded account metadata read
 on:
   push:
     branches: [audit/g0-sdk-transport-20260920]
-    paths: [tools/g0_account_read.py, .github/workflows/g0-account-read.yml]
+    paths: [tools/g0_account_read.py, tools/g0_account_gate.py, .github/workflows/g0-account-read.yml]
 permissions:
   contents: read
 concurrency:
@@ -25,7 +25,7 @@ jobs:
         run: |
           timeout 90 /tmp/g0/bin/python tools/g0_sdk_fixture.py
           timeout 90 /tmp/g0/bin/python tools/g0_response_fixture.py
-          timeout 90 /tmp/g0/bin/python tools/g0_account_read.py --self-test
+          timeout 90 /tmp/g0/bin/python tools/g0_account_gate.py
           rm out/studio-probe.json
       - name: Bounded account GET-only snapshot
         env:

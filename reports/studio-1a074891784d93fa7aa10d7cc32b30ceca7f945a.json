@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "kind": "studio_internal_read_schema",
+  "network_attempts": 0,
+  "platform_requests": 0,
+  "methods": {
+    "cloud_space_service_get_cloud_space_app": {
+      "signature": "(self, id: 'str', **kwargs) -> 'V1CloudSpaceApp'",
+      "path": "/v1/cloudspaces/apps/{id}",
+      "verb": "GET",
+      "response_type": "V1CloudSpaceApp",
+      "allowed_params": [
+        "id"
+      ],
+      "doc": "cloud_space_service_get_cloud_space_app  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.cloud_space_service_get_cloud_space_app_with_http_info(id, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param str id: (required)\n:return: V1CloudSpaceApp\n         If the method is called asynchronously,\n         returns the request thread."
+    },
+    "cloud_space_service_list_cloud_space_apps": {
+      "signature": "(self, **kwargs) -> 'V1ListCloudSpaceAppsResponse'",
+      "path": "/v1/cloudspaces/apps",
+      "verb": "GET",
+      "response_type": "V1ListCloudSpaceAppsResponse",
+      "allowed_params": [
+        "org_id",
+        "project_id",
+        "user_id"
+      ],
+      "doc": "cloud_space_service_list_cloud_space_apps  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.cloud_space_service_list_cloud_space_apps_with_http_info(async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param str org_id:\n:param str project_id:\n:param str user_id:\n:return: V1ListCloudSpaceAppsResponse\n         If the method is called asynchronously,\n         returns the request thread."
+    },
+    "cloud_space_service_list_cloud_space_sessions": {
+      "signature": "(self, project_id: 'str', cloudspace_id: 'str', **kwargs) -> 'V1ListCloudSpaceSessionsResponse'",
+      "path": "/v1/projects/{projectId}/cloudspaces/{cloudspaceId}/sessions",
+      "verb": "GET",
+      "response_type": "V1ListCloudSpaceSessionsResponse",
+      "allowed_params": [
+        "project_id",
+        "cloudspace_id"
+      ],
+      "doc": "Session endpoints  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.cloud_space_service_list_cloud_space_sessions_with_http_info(project_id, cloudspace_id, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param str project_id: (required)\n:param str cloudspace_id: (required)\n:return: V1ListCloudSpaceSessionsResponse\n         If the method is called asynchronously,\n         returns the request thread."
+    },
+    "cloud_space_service_get_long_running_command_in_cloud_space": {
+      "signature": "(self, project_id: 'str', id: 'str', session: 'str', **kwargs) -> 'V1GetLongRunningCommandInCloudSpaceResponse'",
+      "path": "/v1/projects/{projectId}/cloudspaces/{id}/execute/{session}",
+      "verb": "GET",
+      "response_type": "V1GetLongRunningCommandInCloudSpaceResponse",
+      "allowed_params": [
+        "project_id",
+        "id",
+        "session"
+      ],
+      "doc": "cloud_space_service_get_long_running_command_in_cloud_space  # noqa: E501\n\nThis method makes a synchronous HTTP request by default. To make an\nasynchronous HTTP request, please pass async_req=True\n>>> thread = api.cloud_space_service_get_long_running_command_in_cloud_space_with_http_info(project_id, id, session, async_req=True)\n>>> result = thread.get()\n\n:param async_req bool\n:param str project_id: (required)\n:param str id: (required)\n:param str session: (required)\n:return: V1GetLongRunningCommandInCloudSpaceResponse\n         If the method is called asynchronously,\n         returns the request thread."
+    }
+  },
+  "models": {
+    "V1CloudSpaceApp": {
+      "author_logo": "str",
+      "authors": "list[str]",
+      "categories": "list[str]",
+      "created_at": "datetime",
+      "description": "str",
+      "entrypoint_file": "str",
+      "git_url": "str",
+      "id": "str",
+      "license": "str",
+      "name": "str",
+      "owner_id": "str",
+      "owner_type": "V1CloudSpaceAppOwnerType",
+      "short_description": "str",
+      "source_url": "str",
+      "tags": "list[str]",
+      "thumbnail": "str",
+      "updated_at": "datetime",
+      "version": "str",
+      "visible_to_org_ids": "list[str]",
+      "visible_to_project_ids": "list[str]",
+      "visible_to_user_ids": "list[str]"
+    },
+    "V1GetLongRunningCommandInCloudSpaceResponse": {
+      "exit_code": "int",
+      "output": "str"
+    },
+    "V1ListCloudSpaceAppsResponse": {
+      "apps": "list[V1CloudSpaceApp]"
+    },
+    "V1ListCloudSpaceSessionsResponse": {
+      "sessions": "list[V1CloudSpaceSession]"
+    },
+    "V1CloudSpaceAppOwnerType": {},
+    "V1CloudSpaceSession": {
+      "command": "str",
+      "id": "str",
+      "name": "str",
+      "timestamp": "datetime"
+    }
+  },
+  "sha": "1a074891784d93fa7aa10d7cc32b30ceca7f945a",
+  "run_id": "35484950809",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35484950809"
+}

@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "kind": "sdk_reference_introspection",
+  "checks": [
+    {
+      "name": "no_platform_credentials",
+      "pass": true
+    },
+    {
+      "name": "field_defined",
+      "pass": true
+    },
+    {
+      "name": "wire_field_defined",
+      "pass": true
+    },
+    {
+      "name": "run_plugin_absent",
+      "pass": true
+    },
+    {
+      "name": "introspection_import_works",
+      "pass": true
+    },
+    {
+      "name": "single_upstream_constructor",
+      "pass": true
+    },
+    {
+      "name": "add_port_auto_start_no_command",
+      "pass": true
+    },
+    {
+      "name": "no_network_attempts",
+      "pass": true
+    }
+  ],
+  "network_attempts": 0,
+  "studio_constructed": false,
+  "platform_mutations": 0,
+  "sdk_sha": "a7709959692a4abdcd152f381585eb1de826923b",
+  "status_comparison": {
+    "Running_enum_equals_string": false,
+    "enum_value": "Running"
+  },
+  "status_property_source": "@property\ndef status(self) -> Status:\n    \"\"\"Returns the Status of the Studio.\n\n    Can be one of { NotCreated | Pending | Running | Stopping | Stopped | Failed }\n\n    Returns:\n        Status: The current :class:`~lightning_sdk.status.Status` of the Studio.\n    \"\"\"\n    if self._prevent_refetch and self._studio.code_status is not None:\n        internal_status = self._studio.code_status.in_use\n    else:\n        internal_status = self._studio_api.get_studio_status(self._studio.id, self._teamspace.id).in_use\n    return _internal_status_to_external_status(\n        internal_status.phase if internal_status is not None else internal_status\n    )\n",
+  "setup_source": "def _setup(self) -> None:\n    \"\"\"Starts background keep-alive for the Studio.\"\"\"\n    if self._setup_done:\n        return\n\n    self._studio_api.start_keeping_alive(teamspace_id=self._teamspace.id, studio_id=self._studio.id)\n    self._setup_done = True\n",
+  "constructor_calls_setup": true,
+  "cloudspace_read_methods": [
+    "cloud_space_service_get_cloud_space",
+    "cloud_space_service_get_cloud_space_app",
+    "cloud_space_service_get_cloud_space_by_collab_session",
+    "cloud_space_service_get_cloud_space_by_name",
+    "cloud_space_service_get_cloud_space_cold_start_metrics_stats",
+    "cloud_space_service_get_cloud_space_instance_config",
+    "cloud_space_service_get_cloud_space_instance_open_ports",
+    "cloud_space_service_get_cloud_space_instance_status",
+    "cloud_space_service_get_cloud_space_instance_system_metrics_aggregate",
+    "cloud_space_service_get_cloud_space_required_balance_status",
+    "cloud_space_service_get_cloud_space_size",
+    "cloud_space_service_get_cloud_space_transfer_estimate",
+    "cloud_space_service_get_cloud_space_version",
+    "cloud_space_service_get_cloud_space_version_publication",
+    "cloud_space_service_get_lightning_run",
+    "cloud_space_service_get_lightning_run_source_code_download_url",
+    "cloud_space_service_get_long_running_command_in_cloud_space",
+    "cloud_space_service_get_long_running_command_in_cloud_space_stream",
+    "cloud_space_service_get_public_cloud_space_by_id",
+    "cloud_space_service_list_available_plugins",
+    "cloud_space_service_list_cloud_space_apps",
+    "cloud_space_service_list_cloud_space_cold_start_metrics",
+    "cloud_space_service_list_cloud_space_instances",
+    "cloud_space_service_list_cloud_space_publications",
+    "cloud_space_service_list_cloud_space_python_versions",
+    "cloud_space_service_list_cloud_space_sessions",
+    "cloud_space_service_list_cloud_space_tags",
+    "cloud_space_service_list_cloud_space_version_publications",
+    "cloud_space_service_list_cloud_space_versions",
+    "cloud_space_service_list_cloud_spaces",
+    "cloud_space_service_list_cloud_spaces_bulk",
+    "cloud_space_service_list_installed_plugins",
+    "cloud_space_service_list_lightning_runs",
+    "cloud_space_service_list_published_cloud_spaces"
+  ],
+  "cloudspace_job_read_methods": [],
+  "add_port_upstream_fields": [
+    "cloudspace_id",
+    "port",
+    "type",
+    "auto_start"
+  ],
+  "sha": "d6034262c5a55d458e71ebe40fc768ab10784c10",
+  "run_id": "35484403849",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35484403849"
+}

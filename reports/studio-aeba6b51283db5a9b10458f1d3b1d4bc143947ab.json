@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "kind": "sdk_serializer_recheck",
+  "checks": [
+    "no_platform_credentials",
+    "omitted_cloudspace_fields_absent",
+    "omitted_user_api_key_absent",
+    "deployment_basic_helper_matches_omission",
+    "presence_00",
+    "only_expected_keys_differ_00",
+    "presence_10",
+    "explicit_empty_command_preserved",
+    "only_expected_keys_differ_10",
+    "presence_01",
+    "explicit_false_preserved",
+    "only_expected_keys_differ_01",
+    "presence_11",
+    "explicit_empty_command_preserved",
+    "explicit_false_preserved",
+    "only_expected_keys_differ_11",
+    "no_network_attempts"
+  ],
+  "platform_requests": 0,
+  "socket_attempts": 0,
+  "studio_constructed": false,
+  "combinations": [
+    {
+      "command_in_request": false,
+      "user_api_key_in_request": false,
+      "cloudspace_keys": [
+        "autoStart",
+        "cloudspaceId",
+        "port",
+        "type"
+      ],
+      "auth_keys": [
+        "enabled",
+        "password",
+        "username"
+      ]
+    },
+    {
+      "command_in_request": true,
+      "user_api_key_in_request": false,
+      "cloudspace_keys": [
+        "autoStart",
+        "cloudspaceId",
+        "command",
+        "port",
+        "type"
+      ],
+      "auth_keys": [
+        "enabled",
+        "password",
+        "username"
+      ]
+    },
+    {
+      "command_in_request": false,
+      "user_api_key_in_request": true,
+      "cloudspace_keys": [
+        "autoStart",
+        "cloudspaceId",
+        "port",
+        "type"
+      ],
+      "auth_keys": [
+        "enabled",
+        "password",
+        "userApiKey",
+        "username"
+      ]
+    },
+    {
+      "command_in_request": true,
+      "user_api_key_in_request": true,
+      "cloudspace_keys": [
+        "autoStart",
+        "cloudspaceId",
+        "command",
+        "port",
+        "type"
+      ],
+      "auth_keys": [
+        "enabled",
+        "password",
+        "userApiKey",
+        "username"
+      ]
+    }
+  ],
+  "causation": "NOT_TESTED_ON_PLATFORM",
+  "observed_at_utc": "2026-09-20T05:22:46.423528+00:00",
+  "sha": "aeba6b51283db5a9b10458f1d3b1d4bc143947ab",
+  "run_id": "35491508097",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35491508097"
+}

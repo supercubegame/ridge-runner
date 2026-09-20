@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "kind": "ui_link_create_only",
+  "started_at_utc": "2026-09-20T03:47:31.041863+00:00",
+  "checks": [
+    "preflight_no_endpoint_conflict_original_cpu_and_8060",
+    "exact_created_identity_basic_auth_autostart_false_no_command",
+    "original_8060_unchanged",
+    "machine_and_sleep_settings_unchanged"
+  ],
+  "service": "NOT_STARTED",
+  "studio_lifecycle": "NOT_REQUESTED",
+  "cleanup": "WAITING_FOR_USER_LINK_CAPTURE",
+  "public_url": "NOT_INFERRED",
+  "last_stage": "readback",
+  "network": {
+    "get": 12,
+    "create": 1,
+    "blocked": 0,
+    "delete": 0,
+    "command": 0,
+    "studio_start_stop": 0
+  },
+  "receipt": {
+    "endpoint_id": "endp_01m2yet8wyks3ts2rcdzfppzqc",
+    "project_id": "01hrhh1avmp22zbv37depwjkp8",
+    "studio_id": "01m2watakghqmc1fnymkg5czax",
+    "name": "ridge-autowake-probe-8061",
+    "port": 8061,
+    "original_endpoint_id": "endp_01m2x511jn86kwsqt5eh3pkws1"
+  },
+  "configuration": {
+    "auto_start": false,
+    "command_empty": true,
+    "auth": "BASIC_ENABLED",
+    "instance_type": "cpu-4",
+    "url_count": 0,
+    "studio_job_id_present": true
+  },
+  "finished_at_utc": "2026-09-20T03:47:33.200306+00:00",
+  "sha": "b05fcab26ad0dea415622ec7c606965bf17f8e18",
+  "run_id": "35487467509",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35487467509"
+}

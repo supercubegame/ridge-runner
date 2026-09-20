@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "FAIL",
+  "scope": "Lightning account read-only API probe",
+  "sdk_source_sha": "a7709959692a4abdcd152f381585eb1de826923b",
+  "observed_at_utc": "2026-09-20T00:10:35.497736+00:00",
+  "checks": [
+    {
+      "name": "credentials_present",
+      "status": "PASS",
+      "detail": "Both API credential Secrets supplied; values withheld"
+    }
+  ],
+  "network": {
+    "get_requests": 0,
+    "blocked_requests": 1,
+    "write_requests_sent": 0
+  },
+  "ssh": "NOT_USED",
+  "start_stop_delete": "NOT_CALLED",
+  "keepalive": "DISABLED",
+  "auto_start_lifecycle_test": "NOT_RUN",
+  "failure_stage": "sdk_import",
+  "error_type": "ReadOnlyViolation",
+  "sha": "ab036d5e16d2ea5bd3d8aef12ad1eb5753575d83",
+  "run_id": "35478048850",
+  "attempt": "1",
+  "run_url": "https://github.com/supercubegame/ridge-runner/actions/runs/35478048850"
+}

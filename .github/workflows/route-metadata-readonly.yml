@@ -2,7 +2,7 @@ name: Original 8060 raw route metadata read only
 on:
   push:
     branches: [audit/route-metadata-readonly-20260920]
-    paths: [tools/route_metadata_readonly.py, .github/workflows/route-metadata-readonly.yml]
+    paths: [tools/route_metadata_readonly.py, tools/route_shapes_readonly.py, .github/workflows/route-metadata-readonly.yml]
 permissions:
   contents: read
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
-      - run: python3 tools/route_metadata_readonly.py --self-test
+      - run: python3 tools/route_shapes_readonly.py --self-test
       - name: Install pinned SDK without credentials
         run: |
           python3 -m venv /tmp/sdk
@@ -27,7 +27,7 @@ jobs:
           LIGHTNING_USER_ID: ${{ secrets.LIGHTNING_USER_ID }}
           LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_API_KEY }}
           DO_NOT_TRACK: '1'
-        run: timeout 150 /tmp/sdk/bin/python tools/route_metadata_readonly.py
+        run: timeout 150 /tmp/sdk/bin/python tools/route_shapes_readonly.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
